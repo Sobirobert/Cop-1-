@@ -22,11 +22,25 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     public T GetById(int id)
     {
-        return _dbSet.Find(id);
+        if (id < Id.Count)
+        {
+            return _dbSet.Find(id);
+        }
+        else
+        {
+            throw new IndexOutOfRangeException();
+        }
     }
     public void Add(T item)
     {
-        _dbSet.Add(item);
+        if(item != nill)
+        {
+            _dbSet.Add(item);
+        }
+        else
+        {
+            throw new InvalidOperationException("Incorrect  value");
+        }
     }
 
     public void Remove(T item)
@@ -38,4 +52,6 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbContext.SaveChanges();
     }
+
+    
 }
