@@ -22,7 +22,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     public T GetById(int id)
     {
-        if (id < Id.Count)
+        if (id != null)
         {
             return _dbSet.Find(id);
         }
@@ -31,9 +31,9 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
             throw new IndexOutOfRangeException();
         }
     }
-    public void Add(T item)
+    public void Add(T item )
     {
-        if(item != nill)
+        if(item != null)
         {
             _dbSet.Add(item);
         }
