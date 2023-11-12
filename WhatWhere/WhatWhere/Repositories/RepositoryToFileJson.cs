@@ -7,9 +7,13 @@ namespace WhatWhere.Repositories
     {
 
         private readonly List<T> _items = new();
-        protected static readonly string fileName = "FileWrite";
+        protected static readonly string fileName = "AGDFileWrite";
+        protected static readonly string fileName2 = "GroceriesFileWrite";
+        protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
         protected static readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName}.json";
-       
+        protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName2}.json";
+        protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName3}.json";
+
         public delegate void ItemAdded(object item);
 
         private readonly ItemAdded _itemAddedCallback;
@@ -24,19 +28,10 @@ namespace WhatWhere.Repositories
             itemToSave.Id = _items.Count + 1;
             _items.Add(itemToSave);
         }
-        public IEnumerable<T> GetAll()
-        {
-            var readfile = File.ReadAllText(uRLFile);
-            var json = JsonSerializer.Deserialize<T>(readfile);
-            _items.Add(json);
-            return _items.ToList();
-        }
-
         public T? GetById(int id)
         {
             if (id > 0)
             {
-
                 return _items.Find(item => item.Id == id);
             }
             else
@@ -63,10 +58,80 @@ namespace WhatWhere.Repositories
             File.WriteAllText(uRLFile, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
+        public void SaveGroceries()
+        {
+            var json = JsonSerializer.Serialize(_items);
+            File.WriteAllText(uRLFile2, json);
+            Console.WriteLine("Conversion to file JSON successful.");
+        }
+        public void SaveKitchenAccessories()
+        {
+            var json = JsonSerializer.Serialize(_items);
+            File.WriteAllText(uRLFile3, json);
+            Console.WriteLine("Conversion to file JSON successful.");
+        }
+        public IEnumerable<T> GetAll()
+        {
+            var readfile = File.ReadAllText(uRLFile);
+            var json = JsonSerializer.Deserialize<T>(readfile);
+            if (json != null)
+            {
+                _items.Add(json);
+            }
+            else
+            {
+                throw new Exception("File is empty");
+            }
 
+            return _items.ToList();
+        }
+        public IEnumerable<T> GetAllGroceries()
+        {
+            var readfile = File.ReadAllText(uRLFile2);
+            var json = JsonSerializer.Deserialize<T>(readfile);
+            if (json != null)
+            {
+                _items.Add(json);
+            }
+            else
+            {
+                throw new Exception("File is empty");
+            }
+            return _items.ToList();
+        }
+        public IEnumerable<T> GetAllKitchenAccessories()
+        {
+            var readfile = File.ReadAllText(uRLFile3);
+            var json = JsonSerializer.Deserialize<T>(readfile);
+            if (json != null)
+            {
+                _items.Add(json);
+            }
+            else
+            {
+                throw new Exception("File is empty");
+            }
+            return _items.ToList();
+        }
         public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
         {
             var items = repository.GetAll();
+            foreach (var item in items)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public void WriteAllConsoleFromFileGroceries(RepositoryToFileJson<Groceries> repository2)
+        {
+            var items = repository2.GetAllGroceries();
+            foreach (var item in items)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public void WriteAllConsoleFromFileKitchenAccessories(RepositoryToFileJson<KitchenAccessories> repository3)
+        {
+            var items = repository3.GetAllKitchenAccessories();
             foreach (var item in items)
             {
                 Console.WriteLine(item);
