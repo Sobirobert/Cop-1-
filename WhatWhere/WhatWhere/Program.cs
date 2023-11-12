@@ -24,8 +24,9 @@ while (true)
     Console.WriteLine("Press 1 to Add AGD product");
     Console.WriteLine("Press 2 to Add Groceries product");
     Console.WriteLine("Press 3 to Add KitchenAccessories product");
-    Console.WriteLine("Press 4 to show all products");
-    Console.WriteLine("Press 5 to delete products");
+    Console.WriteLine("Press 4 to show all products in memory");
+    Console.WriteLine("Press 5 to delete products from file");
+    Console.WriteLine("Press 6 to delete products from file");
     Console.WriteLine("To exit insert 'x' ");
     Console.WriteLine("Choose option again.");
     var userInPut = Console.ReadLine();
@@ -67,6 +68,8 @@ while (true)
                 }
 
                 inwentoryAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
+                inwentoryToFileAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
+                inwentoryAGD.Save();
                 Console.WriteLine("Success");
                 Console.WriteLine("Do you want save insert AGD ?");
                 Console.WriteLine("Insert Y - Yes, N - No.");
@@ -74,7 +77,7 @@ while (true)
                 var userChosse = Console.ReadLine();
                 if (userChosse == "Y" || userChosse == "y")
                 {
-                    inwentoryToFileAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
+                    inwentoryToFileAGD.Save();
                 }
                 else if (userChosse == "N" || userChosse == "n")
                 {
@@ -108,14 +111,17 @@ while (true)
                     Console.WriteLine("The conversion wasn't successful.");
                 }
                 inwentoryGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
-
+                inwentoryToFileGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
+                inwentoryGroceries.Save();
                 Console.WriteLine("Success");
                 Console.WriteLine("Do you want save insert Groceries ?");
                 Console.WriteLine("Insert Y - Yes, N - No.");
+
                 var userChosse1 = Console.ReadLine();
                 if(userChosse1 == "Y" || userChosse1 ==  "y")
                 {
-                    inwentoryToFileGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
+                    
+                    inwentoryToFileGroceries.Save();
                 }
                 else if (userChosse1 == "N"|| userChosse1 == "n")
                 {
@@ -136,6 +142,7 @@ while (true)
                 Console.WriteLine("Insert Count");
                 var countKitchenAccessories = Console.ReadLine();
                 int countKitchenAccessoriesInt;
+
                 if (int.TryParse(countKitchenAccessories, out countKitchenAccessoriesInt))
                 {
 
@@ -147,13 +154,18 @@ while (true)
                 }
 
                 inwentoryKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now});
+                inwentoryToFileKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
+                inwentoryKitchenAccessories.Save();
+
                 Console.WriteLine("Success");
                 Console.WriteLine("Do you want save insert Groceries ?");
                 Console.WriteLine("Insert Y - Yes, N - No.");
+
                 var userChosse2 = Console.ReadLine();
                 if (userChosse2 == "Y" || userChosse2 == "y")
                 {
-                    inwentoryToFileKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
+                   
+                    inwentoryToFileKitchenAccessories.Save();
                 }
                 else if (userChosse2 == "N" || userChosse2 == "n")
                 {
@@ -166,16 +178,28 @@ while (true)
                 break;
 
             case "4":
-                WriteAllToConsole(inwentoryAGD);
-                WriteAllToConsoleFromFileJson(inwentoryToFileAGD);
-                WriteAllToConsole(inwentoryGroceries);
-                WriteAllToConsoleFromFileJson(inwentoryToFileGroceries);
-                WriteAllToConsole(inwentoryKitchenAccessories);
-                WriteAllToConsoleFromFileJson(inwentoryToFileKitchenAccessories);
+                inwentoryAGD.WriteAllToConsole(inwentoryAGD);
+                inwentoryGroceries.WriteAllToConsole(inwentoryGroceries);
+                inwentoryKitchenAccessories.WriteAllToConsole(inwentoryKitchenAccessories);
+                
                 break;
             case "5":
+                inwentoryToFileAGD.WriteAllConsoleFromFile(inwentoryToFileAGD);
+                inwentoryToFileGroceries.WriteAllConsoleFromFile(inwentoryToFileGroceries);
+                inwentoryToFileKitchenAccessories.WriteAllConsoleFromFile(inwentoryToFileKitchenAccessories);
+                break;
+            case "6":
                 Console.WriteLine("Which name contact you want delete ?");
-                var userDeleteContact = Console.ReadLine();
+                Console.WriteLine("Enter the Id of user you want to delete");
+                try
+                {
+                    //repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+                   // repository.Save();
+                }
+                catch
+                {
+                    Console.WriteLine("wrong option");
+                }
                 break;
             case "x":
                 return;
@@ -189,23 +213,9 @@ while (true)
         Console.WriteLine($"Exception caught: {e.Message}");
     }
 
-    static void WriteAllToConsole(IReadRepository<IEntity> repository)
-    {
-        var items = repository.GetAll();
-        foreach (var item in items)
-        {
-            Console.WriteLine(item);
-        }
-    }
+    
 
-    static void WriteAllToConsoleFromFileJson(IReadRepository<IEntity> repository)
-    {
-        var items = repository.GetAll();
-        foreach (var item in items)
-        {
-            Console.WriteLine(item);
-        }
-    }
+    
     //var userRepository = new SqlRepository<User>(new UserDataDbContext());
 
     //userRepository.ItemAdded += userRepositoryOnItemAdded;

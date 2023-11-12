@@ -46,4 +46,12 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbContext.SaveChanges();
     }
+    public void WriteAllToConsole(IReadRepository<IEntity> repository)
+    {
+        var items = repository.GetAll();
+        foreach (var item in items)
+        {
+            Console.WriteLine(item);
+        }
+    }
 }

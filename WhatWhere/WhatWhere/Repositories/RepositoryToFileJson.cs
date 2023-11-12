@@ -8,7 +8,7 @@ namespace WhatWhere.Repositories
 
         private readonly List<T> _items = new();
         protected static readonly string fileName = "FileWrite";
-        protected readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName}.json";
+        protected static readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName}.json";
        
         public delegate void ItemAdded(object item);
 
@@ -21,10 +21,8 @@ namespace WhatWhere.Repositories
         //public event EventHandler<T>? ItemRemoved;
         public void Add(T itemToSave)
         {
-            var json = JsonSerializer.Serialize<T>(itemToSave);
-            File.WriteAllText(uRLFile, json);
-            Console.WriteLine("Conversion to file Json successful.");
             itemToSave.Id = _items.Count + 1;
+            _items.Add(itemToSave);
         }
         public IEnumerable<T> GetAll()
         {
@@ -61,31 +59,19 @@ namespace WhatWhere.Repositories
 
         public void Save()
         {
-
+            var json = JsonSerializer.Serialize(_items);
+            File.WriteAllText(uRLFile, json);
+            Console.WriteLine("Conversion to file JSON successful.");
         }
 
-        public static void WriteAllConsole(IReadRepository<IEntity> repository)
+        public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
         {
-            //string jsonString = File.ReadAllText($"D:/Programowanie2/Cop 1/Cop-1-/WhatWhere/WhatWhere/bin/Debug/net7.0");
-            //T repositoryToRead = JsonConvert.DeserializeObject<repository>(jsonString);
             var items = repository.GetAll();
             foreach (var item in items)
             {
                 Console.WriteLine(item);
             }
         }
-        //public static void ReadFiles()
-        //{
-        //    var document1 = File.ReadAllText(nameFile);
-        //    var document2 = File.ReadAllLines(nameFile);
-        //}
-        //public static void GenerateDocuments()
-        //{
-        //    Console.WriteLine("Insert name");
-        //    File.WriteAllText($"D:/Programowanie2/Cop_1/Cop-1-/WhatWhere", fileName);
-
-        //}
-
     }
 }
 

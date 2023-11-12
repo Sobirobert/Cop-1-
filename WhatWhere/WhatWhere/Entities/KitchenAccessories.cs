@@ -2,7 +2,6 @@
 {
     public class KitchenAccessories : EntityBase
     {
-        public override string ToString() => base.ToString() + $", Name: {Name}, Count: {Count}, Location {Location} - (KitchenAccessories)";
         public KitchenAccessories(string? name, string? location, int count, DateTime dateChanges)
         {
             Name = name;
@@ -17,5 +16,6 @@
         public string Location { get; set; }
         public int Count { get; set; }
         public DateTime DateChange { get; set; }
+        public override string ToString() => base.ToString() + $", Name: {Name}, Count: {Count}, Location: {Location}, DateTime - {DateChange}  - (KitchenAccessories)";
     }
 }
