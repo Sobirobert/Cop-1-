@@ -7,5 +7,7 @@ namespace WhatWhere.Repositories
         void Add(T item);
         void Remove(T item);
         void Save();
+        void AddInt(string item);
+
     }
 }

@@ -7,6 +7,8 @@ namespace WhatWhere.Repositories
     {
 
         private readonly List<T> _items = new();
+        private readonly List<T> _items2 = new();
+        private readonly List<T> _items3 = new();
         protected static readonly string fileName = "AGDFileWrite";
         protected static readonly string fileName2 = "GroceriesFileWrite";
         protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
@@ -28,6 +30,18 @@ namespace WhatWhere.Repositories
             itemToSave.Id = _items.Count + 1;
             _items.Add(itemToSave);
         }
+        public void AddInt(string value)
+        {
+            if (int.TryParse(value, out int number))
+            {
+                Console.WriteLine("The conversion success.");
+            }
+            else
+            {
+                Console.WriteLine("The conversion wasn't successful.");
+            }
+        }
+
         public T? GetById(int id)
         {
             if (id > 0)
@@ -91,13 +105,13 @@ namespace WhatWhere.Repositories
             var json = JsonSerializer.Deserialize<T>(readfile);
             if (json != null)
             {
-                _items.Add(json);
+                _items2.Add(json);
             }
             else
             {
                 throw new Exception("File is empty");
             }
-            return _items.ToList();
+            return _items2.ToList();
         }
         public IEnumerable<T> GetAllKitchenAccessories()
         {
@@ -105,13 +119,13 @@ namespace WhatWhere.Repositories
             var json = JsonSerializer.Deserialize<T>(readfile);
             if (json != null)
             {
-                _items.Add(json);
+                _items3.Add(json);
             }
             else
             {
                 throw new Exception("File is empty");
             }
-            return _items.ToList();
+            return _items3.ToList();
         }
         public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
         {

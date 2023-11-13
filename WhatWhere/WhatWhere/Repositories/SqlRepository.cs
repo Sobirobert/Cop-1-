@@ -22,6 +22,16 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemove;
+    public void Add(T item)
+    {
+        _dbSet.Add(item);
+        ItemAdded?.Invoke(this, item);
+    }
+
+    public void AddInt(string value)
+    {
+        throw new NotImplementedException();
+    }
 
     public IEnumerable<T> GetAll()
     {
@@ -29,13 +39,6 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     }
 
     public T GetById(int id) => _dbSet.Find(id);
-
-    public void Add(T item)
-    {
-        _dbSet.Add(item);
-        ItemAdded?.Invoke(this, item);
-    }
-
     public void Remove(T item)
     {
         _dbSet.Remove(item);

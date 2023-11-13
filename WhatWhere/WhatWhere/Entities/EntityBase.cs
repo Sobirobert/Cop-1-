@@ -16,7 +16,6 @@
         public string? Location { get; set; }
         public int Count { get; set; }
         public DateTime? DateChange { get; set; }
-        //public override string ToString() => $" Id: {Id}, Name: {Name}, Count: {Count}, Location {Location}, Change date {ChangeDate} ";
         public override string ToString() => $"Id: {Id}";
     }
 }

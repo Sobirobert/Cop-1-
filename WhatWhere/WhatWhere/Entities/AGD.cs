@@ -8,10 +8,10 @@
             Location = location;
             Count = count;
             GuaranteeDate = guaranteeDate;
-            DateChange = dateChange;  
+            DateChange = dateChange;
         }
-        public AGD() 
-        { 
+        public AGD()
+        {
         }
         public string Name { get; set; }
         public string Location { get; set; }

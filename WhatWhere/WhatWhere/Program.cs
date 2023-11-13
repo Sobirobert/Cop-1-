@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using WhatWhere;
 using WhatWhere.Data;
 using WhatWhere.Entities;
@@ -43,8 +45,7 @@ while (true)
                 var locationAGD = Console.ReadLine();
                 Console.WriteLine("Insert Count");
                 var countAGD = Console.ReadLine();
-                int countAGDInt;
-
+                int countAGDInt; // = AddInt(countAGD);
                 if (int.TryParse(countAGD, out countAGDInt))
                 {
 
@@ -73,7 +74,7 @@ while (true)
                 Console.WriteLine("Success");
                 Console.WriteLine("Do you want save insert AGD ?");
                 Console.WriteLine("Insert Y - Yes, N - No.");
-               
+
                 var userChosse = Console.ReadLine();
                 if (userChosse == "Y" || userChosse == "y")
                 {
@@ -87,7 +88,7 @@ while (true)
                 {
                     throw new Exception("Incorrect chose");
                 }
-                
+
                 break;
 
             case "2":
@@ -118,12 +119,12 @@ while (true)
                 Console.WriteLine("Insert Y - Yes, N - No.");
 
                 var userChosse1 = Console.ReadLine();
-                if(userChosse1 == "Y" || userChosse1 ==  "y")
+                if (userChosse1 == "Y" || userChosse1 == "y")
                 {
-                    
+
                     inwentoryToFileGroceries.SaveGroceries();
                 }
-                else if (userChosse1 == "N"|| userChosse1 == "n")
+                else if (userChosse1 == "N" || userChosse1 == "n")
                 {
                     Console.WriteLine("Okey, program doesn't save Groceries ?");
                 }
@@ -131,7 +132,7 @@ while (true)
                 {
                     throw new Exception("Incorrect chose ");
                 }
-               
+
                 break;
 
             case "3":
@@ -142,7 +143,6 @@ while (true)
                 Console.WriteLine("Insert Count");
                 var countKitchenAccessories = Console.ReadLine();
                 int countKitchenAccessoriesInt;
-
                 if (int.TryParse(countKitchenAccessories, out countKitchenAccessoriesInt))
                 {
 
@@ -153,7 +153,7 @@ while (true)
                     Console.WriteLine("The conversion wasn't successful.");
                 }
 
-                inwentoryKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now});
+                inwentoryKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryToFileKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryKitchenAccessories.Save();
 
@@ -164,7 +164,6 @@ while (true)
                 var userChosse2 = Console.ReadLine();
                 if (userChosse2 == "Y" || userChosse2 == "y")
                 {
-                   
                     inwentoryToFileKitchenAccessories.SaveKitchenAccessories();
                 }
                 else if (userChosse2 == "N" || userChosse2 == "n")
@@ -181,7 +180,7 @@ while (true)
                 inwentoryAGD.WriteAllToConsole(inwentoryAGD);
                 inwentoryGroceries.WriteAllToConsole(inwentoryGroceries);
                 inwentoryKitchenAccessories.WriteAllToConsole(inwentoryKitchenAccessories);
-                
+
                 break;
             case "5":
                 inwentoryToFileAGD.WriteAllConsoleFromFile(inwentoryToFileAGD);
@@ -194,7 +193,7 @@ while (true)
                 try
                 {
                     //repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                   // repository.Save();
+                    // repository.Save();
                 }
                 catch
                 {
@@ -202,6 +201,7 @@ while (true)
                 }
                 break;
             case "x":
+            case "X":
                 return;
             default:
                 Console.WriteLine("Invalid operation");
@@ -213,12 +213,21 @@ while (true)
         Console.WriteLine($"Exception caught: {e.Message}");
     }
 
-
-
+    static void AddInt(string value)
+    {
+        if (int.TryParse(value, out int number))
+        {
+            Console.WriteLine("The conversion success.");
+        }
+        else
+        {
+            Console.WriteLine("The conversion wasn't successful.");
+        }
+    }
     //userRepository.ItemAdded += userRepositoryOnItemAdded;
     //userRepository.ItemRemove += userRepositoryOnItemRemove;
 
-   
+
     //static void WriteAllToConsole(IReadRepository<IEntity> repository)
     //{
     //    var items = repository.GetAll();
