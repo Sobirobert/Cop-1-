@@ -118,12 +118,12 @@ namespace WhatWhere.Repositories
             if (json != null)
             {
                 return json.ToList();
-                
             }
             else
             {
                 throw new Exception("File is empty");
             }
+            return _items3.ToList();
         }
         public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
         {
