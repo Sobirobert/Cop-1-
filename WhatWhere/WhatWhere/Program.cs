@@ -224,6 +224,19 @@ while (true)
             Console.WriteLine("The conversion wasn't successful.");
         }
     }
+    
+      static DateTime AddDateTime(string value)
+    {
+        if (DateTime.TryParse(value, out DateTime date))
+        {
+            Console.WriteLine("The conversion success.");
+        }
+        else
+        {
+            Console.WriteLine("The conversion wasn't successful.");
+        }
+        return date;
+    }
     //userRepository.ItemAdded += userRepositoryOnItemAdded;
     //userRepository.ItemRemove += userRepositoryOnItemRemove;
 
