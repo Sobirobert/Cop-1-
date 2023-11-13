@@ -195,7 +195,6 @@ while (true)
         return number;
     }
 
-
     static DateTime AddDateTime(string value)
     {
         if (DateTime.TryParse(value, out DateTime date))
