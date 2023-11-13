@@ -79,7 +79,7 @@ while (true)
                 break;
 
             case "2":
-                Console.WriteLine("Press information to add Groceries");
+                 Console.WriteLine("Press information to add Groceries");
                 Console.WriteLine("*************************************");
 
                 Console.WriteLine("Insert name");
