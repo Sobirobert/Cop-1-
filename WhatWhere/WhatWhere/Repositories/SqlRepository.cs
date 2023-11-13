@@ -28,11 +28,6 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
         ItemAdded?.Invoke(this, item);
     }
 
-    public void AddInt(string value)
-    {
-        throw new NotImplementedException();
-    }
-
     public IEnumerable<T> GetAll()
     {
         return _dbSet.ToList();
@@ -57,4 +52,5 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
             Console.WriteLine(item);
         }
     }
+
 }
