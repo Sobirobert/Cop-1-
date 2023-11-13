@@ -39,35 +39,20 @@ while (true)
             case "1":
                 Console.WriteLine("Press information to Add AGD product");
                 Console.WriteLine("*************************************");
-                Console.WriteLine("Insert name");
+                 Console.WriteLine("Insert name");
                 var nameAGD = Console.ReadLine();
+
                 Console.WriteLine("Insert Location");
                 var locationAGD = Console.ReadLine();
+
                 Console.WriteLine("Insert Count");
                 var countAGD = Console.ReadLine();
-                int countAGDInt; // = AddInt(countAGD);
-                if (int.TryParse(countAGD, out countAGDInt))
-                {
-
-                    Console.WriteLine("The conversion was successful.");
-                }
-                else
-                {
-                    Console.WriteLine("The conversion wasn't successful.");
-                }
-
+                int countAGDInt = AddInt(countAGD);
+             
                 Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
                 string dateString = Console.ReadLine();
-                DateTime endDate;
-                if (DateTime.TryParse(dateString, out endDate))
-                {
-                    Console.WriteLine("The conversion was successful.");
-                }
-                else
-                {
-                    Console.WriteLine("The conversion wasn't successful.");
-                }
-
+                DateTime endDate = AddDateTime(dateString);
+               
                 inwentoryAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
                 inwentoryToFileAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
                 inwentoryAGD.Save();
@@ -92,25 +77,19 @@ while (true)
                 break;
 
             case "2":
-                Console.WriteLine("Press information to add Groceries");
+                 Console.WriteLine("Press information to add Groceries");
                 Console.WriteLine("*************************************");
+
                 Console.WriteLine("Insert name");
                 var nameGroceries = Console.ReadLine();
+
                 Console.WriteLine("Insert Location");
                 var locationGroceries = Console.ReadLine();
+
                 Console.WriteLine("Insert Count");
                 var countGroceries = Console.ReadLine();
-                int countcountGroceriesInt;
-
-                if (int.TryParse(countGroceries, out countcountGroceriesInt))
-                {
-
-                    Console.WriteLine("The conversion was successful.");
-                }
-                else
-                {
-                    Console.WriteLine("The conversion wasn't successful.");
-                }
+                int countcountGroceriesInt = AddInt(countGroceries);
+                            
                 inwentoryGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
                 inwentoryToFileGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
                 inwentoryGroceries.Save();
@@ -136,23 +115,20 @@ while (true)
                 break;
 
             case "3":
+                Console.WriteLine("Press information to add Groceries");
+                Console.WriteLine("*************************************");
+
                 Console.WriteLine("Insert name");
                 var nameKitchenAccessories = Console.ReadLine();
+
                 Console.WriteLine("Insert Location");
                 var locationKitchenAccessories = Console.ReadLine();
+
                 Console.WriteLine("Insert Count");
                 var countKitchenAccessories = Console.ReadLine();
                 int countKitchenAccessoriesInt;
-                if (int.TryParse(countKitchenAccessories, out countKitchenAccessoriesInt))
-                {
-
-                    Console.WriteLine("The conversion was successful.");
-                }
-                else
-                {
-                    Console.WriteLine("The conversion wasn't successful.");
-                }
-
+                countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
+            
                 inwentoryKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryToFileKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryKitchenAccessories.Save();
