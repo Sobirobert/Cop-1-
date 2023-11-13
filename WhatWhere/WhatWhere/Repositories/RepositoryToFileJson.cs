@@ -87,46 +87,42 @@ namespace WhatWhere.Repositories
         public IEnumerable<T> GetAll()
         {
             var readfile = File.ReadAllText(uRLFile);
-            var json = JsonSerializer.Deserialize<T>(readfile);
+            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+
             if (json != null)
             {
-                _items.Add(json);
+                return json.ToList();
             }
             else
             {
                 throw new Exception("File is empty");
             }
-
-            return _items.ToList();
         }
         public IEnumerable<T> GetAllGroceries()
         {
             var readfile = File.ReadAllText(uRLFile2);
-            var json = JsonSerializer.Deserialize<T>(readfile);
+            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
             if (json != null)
             {
-                _items2.Add(json);
+                return json.ToList();
             }
             else
             {
                 throw new Exception("File is empty");
             }
-            return _items2.ToList();
         }
         public IEnumerable<T> GetAllKitchenAccessories()
         {
             var readfile = File.ReadAllText(uRLFile3);
-            var json = JsonSerializer.Deserialize<T>(readfile);
+            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
             if (json != null)
             {
-                _items3.Add(json);
+                return json.ToList();
             }
             else
             {
                 throw new Exception("File is empty");
             }
-            return _items3.ToList();
-        }
         public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
         {
             var items = repository.GetAll();
