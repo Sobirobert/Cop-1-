@@ -80,10 +80,13 @@ while (true)
             case "2":
                 Console.WriteLine("Press information to add Groceries");
                 Console.WriteLine("*************************************");
+
                 Console.WriteLine("Insert name");
                 var nameGroceries = Console.ReadLine();
+
                 Console.WriteLine("Insert Location");
                 var locationGroceries = Console.ReadLine();
+
                 Console.WriteLine("Insert Count");
                 var countGroceries = Console.ReadLine();
                 int countcountGroceriesInt = AddInt(countGroceries);
@@ -113,10 +116,15 @@ while (true)
                 break;
 
             case "3":
+                Console.WriteLine("Press information to add Groceries");
+                Console.WriteLine("*************************************");
+
                 Console.WriteLine("Insert name");
                 var nameKitchenAccessories = Console.ReadLine();
+
                 Console.WriteLine("Insert Location");
                 var locationKitchenAccessories = Console.ReadLine();
+
                 Console.WriteLine("Insert Count");
                 var countKitchenAccessories = Console.ReadLine();
                 int countKitchenAccessoriesInt;
