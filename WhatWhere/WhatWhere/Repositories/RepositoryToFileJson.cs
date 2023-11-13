@@ -123,11 +123,10 @@ namespace WhatWhere.Repositories
             {
                 throw new Exception("File is empty");
             }
-            return _items3.ToList();
         }
-        public void WriteAllConsoleFromFile(IReadRepository<IEntity> repository)
+        public void WriteAllConsoleFromFile(RepositoryToFileJson<AGD> repository1)
         {
-            var items = repository.GetAll();
+            var items = repository1.GetAll();
             foreach (var item in items)
             {
                 Console.WriteLine(item);
@@ -150,5 +149,6 @@ namespace WhatWhere.Repositories
             }
         }
     }
+
 }
 

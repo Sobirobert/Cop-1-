@@ -41,6 +41,7 @@ while (true)
                 Console.WriteLine("*************************************");
 
                 Console.WriteLine("Insert name");
+                Console.WriteLine("Insert name");
                 var nameAGD = Console.ReadLine();
 
                 Console.WriteLine("Insert Location");
@@ -49,11 +50,11 @@ while (true)
                 Console.WriteLine("Insert Count");
                 var countAGD = Console.ReadLine();
                 int countAGDInt = AddInt(countAGD);
-             
+
                 Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
                 string dateString = Console.ReadLine();
                 DateTime endDate = AddDateTime(dateString);
-               
+
                 inwentoryAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
                 inwentoryToFileAGD.Add(new AGD { Name = nameAGD, Location = locationAGD, Count = countAGDInt, GuaranteeDate = endDate, DateChange = DateTime.Now });
                 inwentoryAGD.Save();
@@ -90,7 +91,7 @@ while (true)
                 Console.WriteLine("Insert Count");
                 var countGroceries = Console.ReadLine();
                 int countcountGroceriesInt = AddInt(countGroceries);
-                            
+
                 inwentoryGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
                 inwentoryToFileGroceries.Add(new Groceries { Name = nameGroceries, Location = locationGroceries, Count = countcountGroceriesInt, DateChange = DateTime.Now });
                 inwentoryGroceries.Save();
@@ -129,7 +130,7 @@ while (true)
                 var countKitchenAccessories = Console.ReadLine();
                 int countKitchenAccessoriesInt;
                 countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
-            
+
                 inwentoryKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryToFileKitchenAccessories.Add(new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now });
                 inwentoryKitchenAccessories.Save();
@@ -194,7 +195,7 @@ while (true)
     {
         if (int.TryParse(value, out int number))
         {
-           Console.WriteLine("The conversion success.");
+            Console.WriteLine("The conversion success.");
         }
         else
         {
