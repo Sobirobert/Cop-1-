@@ -36,7 +36,14 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public void Remove(T item)
     {
         _dbSet.Remove(item);
+        _dbContext.SaveChanges();
         ItemRemove?.Invoke(this, item);
+    }
+
+    public void RemoveAll()
+    {
+        _dbSet.RemoveRange(_dbSet);
+        _dbContext.SaveChanges();
     }
 
     public void Save()

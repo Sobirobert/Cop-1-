@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using WhatWhere;
-using WhatWhere.Data;
+﻿using WhatWhere.Data;
 using WhatWhere.Entities;
 using WhatWhere.Repositories;
 
@@ -27,8 +20,11 @@ while (true)
     Console.WriteLine("Press 2 to Add Groceries product");
     Console.WriteLine("Press 3 to Add KitchenAccessories product");
     Console.WriteLine("Press 4 to show all products in memory");
-    Console.WriteLine("Press 5 to delete products from file");
-    Console.WriteLine("Press 6 to delete products from file");
+    Console.WriteLine("Press 5 to show all products from file");
+    Console.WriteLine("Press 6 to clear all products from file");
+    Console.WriteLine("Press 7 to clear all products in memory");
+    Console.WriteLine("Press 8 to remove one products in memory");
+    Console.WriteLine("Press 9 to remove one products from File");
     Console.WriteLine("To exit insert 'x' ");
     Console.WriteLine("Choose option again.");
     var userInPut = Console.ReadLine();
@@ -36,11 +32,11 @@ while (true)
     {
         switch (userInPut)
         {
+            #region case "1"
             case "1":
                 Console.WriteLine("Press information to Add AGD product");
                 Console.WriteLine("*************************************");
 
-                Console.WriteLine("Insert name");
                 Console.WriteLine("Insert name");
                 var nameAGD = Console.ReadLine();
 
@@ -75,11 +71,11 @@ while (true)
                 {
                     throw new Exception("Incorrect chose");
                 }
-
                 break;
-
+            #endregion case "1"
+            #region case "2"
             case "2":
-                 Console.WriteLine("Press information to add Groceries");
+                Console.WriteLine("Press information to add Groceries");
                 Console.WriteLine("*************************************");
 
                 Console.WriteLine("Insert name");
@@ -113,9 +109,9 @@ while (true)
                 {
                     throw new Exception("Incorrect chose ");
                 }
-
                 break;
-
+            #endregion case "2"
+            #region case "3"
             case "3":
                 Console.WriteLine("Press information to add Groceries");
                 Console.WriteLine("*************************************");
@@ -153,31 +149,132 @@ while (true)
                     throw new Exception("Incorrect chose ");
                 }
                 break;
-
+            #endregion case "3"
+            #region case "4"
             case "4":
                 inwentoryAGD.WriteAllToConsole(inwentoryAGD);
                 inwentoryGroceries.WriteAllToConsole(inwentoryGroceries);
                 inwentoryKitchenAccessories.WriteAllToConsole(inwentoryKitchenAccessories);
 
                 break;
+            #endregion case "4"
+            #region case "5"
             case "5":
                 inwentoryToFileAGD.WriteAllConsoleFromFile(inwentoryToFileAGD);
                 inwentoryToFileGroceries.WriteAllConsoleFromFileGroceries(inwentoryToFileGroceries);
                 inwentoryToFileKitchenAccessories.WriteAllConsoleFromFileKitchenAccessories(inwentoryToFileKitchenAccessories);
                 break;
+            #endregion case "5"
+            #region case "6"
             case "6":
-                Console.WriteLine("Which name contact you want delete ?");
-                Console.WriteLine("Enter the Id of user you want to delete");
-                try
+                Console.WriteLine("Do you want clear the files ?");
+                Console.WriteLine("Press Y - yes or N - not.");
+                var userInPut2 = Console.ReadLine();
+                if (userInPut2 == "y" || userInPut2 == "Y")
                 {
-                    //repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                    // repository.Save();
+                    inwentoryToFileAGD.ClearFile();
+                    Console.WriteLine("Memory wipe successful.");
+
                 }
-                catch
+                else if (userInPut2 == "n" || userInPut2 == "N")
                 {
-                    Console.WriteLine("wrong option");
+                    return;
+                }
+                else
+                {
+                    throw new Exception("incorrect value");
                 }
                 break;
+            #endregion case "7"
+            #region case "7"
+            case "7":
+                Console.WriteLine("Do you want clear memory ?");
+                Console.WriteLine("Press Y - yes or N - not.");
+                var userInPut3 = Console.ReadLine();
+                if (userInPut3 == "y" || userInPut3 == "Y")
+                {
+                    RemoveAllMemory();
+                }
+                else if (userInPut3 == "n" || userInPut3 == "N")
+                {
+                    return;
+                }
+                else
+                {
+                    throw new Exception("incorrect value");
+                }
+                break;
+            #endregion case "7"
+            #region case "8"
+            case "8":
+                Console.WriteLine("What kind of product do you want delete?");
+                Console.WriteLine("Insert 1 - AGD, insert 2 - Groceries, 3 - KitchenAccessories.");
+                var userInPut5 = Console.ReadLine();
+                if (userInPut5 == "1") 
+                {
+                    RemoveAGDById(inwentoryAGD);
+                }
+                else if (userInPut5 == "2")
+                {
+                    RemoveGroceriesById(inwentoryGroceries);
+                }
+                else if (userInPut5 == "3") 
+                {
+                    RemoveKitchenAccessoriesById(inwentoryKitchenAccessories);
+                }
+                else
+                {
+                    throw new Exception("Wrong number.");
+                }
+                break;
+            #endregion case "8"
+            #region case "9"
+            case "9":
+                Console.WriteLine("What kind of product do you want delete?");
+                Console.WriteLine("Insert 1 - AGD, insert 2 - Groceries, 3 - KitchenAccessories.");
+                var userInPut6 = Console.ReadLine();
+                if (userInPut6 == "1")
+                {
+                    Console.WriteLine("Enter the Id of AGD you want to delete");
+                    try
+                    {
+                        RemoveAGDById(inwentoryToFileAGD);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("wrong option");
+                    }                  
+                }
+                else if (userInPut6 == "2")
+                {
+                    Console.WriteLine("Enter the Id of Groceries do you want to delete");
+                    try
+                    {
+                        RemoveGroceriesById(inwentoryToFileGroceries);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("wrong option");
+                    }
+                }
+                else if (userInPut6 == "3")
+                {
+                    Console.WriteLine("Enter the Id of Kitchen Accessories you want to delete");
+                    try
+                    {
+                        RemoveKitchenAccessoriesById(inwentoryToFileKitchenAccessories);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("wrong option");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Wrong number.");
+                }
+                break;
+            #endregion case "9"
             case "x":
             case "X":
                 return;
@@ -191,6 +288,7 @@ while (true)
         Console.WriteLine($"Exception caught: {e.Message}");
     }
 
+    #region AddInt
     static int AddInt(string value)
     {
         if (int.TryParse(value, out int number))
@@ -203,7 +301,8 @@ while (true)
         }
         return number;
     }
-
+    #endregion AddInt
+    #region AddDateTime
     static DateTime AddDateTime(string value)
     {
         if (DateTime.TryParse(value, out DateTime date))
@@ -216,66 +315,120 @@ while (true)
         }
         return date;
     }
+    #endregion AddDateTime
+    #region RemoveAllMemory
+    void RemoveAllMemory()
+    {
+        inwentoryAGD.RemoveAll();
+        inwentoryGroceries.RemoveAll();
+        inwentoryKitchenAccessories.RemoveAll();
+    }
+    #endregion RemoveAllMemory
+    #region RemoveAGDById
+    static void RemoveAGDById(IRepository<AGD> repository)
+    {
+        Console.WriteLine("Enter the Id of product you want to delete");
+        try
+        {
+            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+            repository.Save();
+        }
+        catch
+        {
+            Console.WriteLine("Id chose is out of reach");
+        }
+    }
+    #endregion RemoveAGDById
+    #region RemoveGroceriesById
+    static void RemoveGroceriesById(IRepository<Groceries> repository)
+    {
+        Console.WriteLine("Enter the Id of product you want to delete");
+        try
+        {
+            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+            repository.Save();
+        }
+        catch
+        {
+            Console.WriteLine("Id chose is out of reach");
+        }
+    }
+    #endregion RemoveGroceriesById
+    #region RemoveKitchenAccessoriesById
+    static void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
+    {
+        Console.WriteLine("Enter the Id of product you want to delete");
+        try
+        {
+            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+            repository.Save();
+        }
+        catch
+        {
+            Console.WriteLine("Id chose is out of reach");
+        }
+    }
+    #endregion RemoveKitchenAccessoriesById
+
+  
+        //userRepository.ItemAdded += userRepositoryOnItemAdded;
+        //userRepository.ItemRemove += userRepositoryOnItemRemove;
 
 
-    //userRepository.ItemAdded += userRepositoryOnItemAdded;
-    //userRepository.ItemRemove += userRepositoryOnItemRemove;
+        //static void WriteAllToConsole(IReadRepository<IEntity> repository)
+        //{
+        //    var items = repository.GetAll();
 
+        //    if (items.Any())
+        //    {
+        //        foreach (var item in items)
+        //        {
+        //            Console.WriteLine(item);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("elements not found");
+        //    }
+        //    Console.ReadKey();//waiting
+        //}
 
-    //static void WriteAllToConsole(IReadRepository<IEntity> repository)
-    //{
-    //    var items = repository.GetAll();
+        //static void RemoveUser(IRepository<User> repository)
+        //{
+        //    Console.WriteLine("Enter the Id of user you want to delete");
+        //    try
+        //    {
+        //        repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+        //        repository.Save();
+        //    }
+        //    catch
+        //    {
+        //        Console.WriteLine("wrong option");
+        //    }
+        //}
 
-    //    if (items.Any())
-    //    {
-    //        foreach (var item in items)
-    //        {
-    //            Console.WriteLine(item);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine("elements not found");
-    //    }
-    //    Console.ReadKey();//waiting
-    //}
+        //static void ClearDb(IRepository<User> repository)
+        //{
+        //    var items = repository.GetAll();
 
-    //static void RemoveUser(IRepository<User> repository)
-    //{
-    //    Console.WriteLine("Enter the Id of user you want to delete");
-    //    try
-    //    {
-    //        repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-    //        repository.Save();
-    //    }
-    //    catch
-    //    {
-    //        Console.WriteLine("wrong option");
-    //    }
-    //}
+        //    if (items.Any())
+        //    {
+        //        foreach (var item in items)
+        //        {
+        //            repository.Remove(item);
+        //        }
+        //        repository.Save();
 
-    //static void ClearDb(IRepository<User> repository)
-    //{
-    //    var items = repository.GetAll();
+        //        Console.WriteLine("Db is claen!");
+        //        Console.ReadKey();
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Db is null");
+        //    }
+        //}
 
-    //    if (items.Any())
-    //    {
-    //        foreach (var item in items)
-    //        {
-    //            repository.Remove(item);
-    //        }
-    //        repository.Save();
-
-    //        Console.WriteLine("Db is claen!");
-    //        Console.ReadKey();
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine("Db is null");
-    //    }
-    //}
-
-}
+    }
 
 
 

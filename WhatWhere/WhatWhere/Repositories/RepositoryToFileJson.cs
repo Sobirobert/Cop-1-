@@ -74,13 +74,13 @@ namespace WhatWhere.Repositories
         }
         public void SaveGroceries()
         {
-            var json = JsonSerializer.Serialize(_items);
+            var json = JsonSerializer.Serialize(_items2);
             File.WriteAllText(uRLFile2, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
         public void SaveKitchenAccessories()
         {
-            var json = JsonSerializer.Serialize(_items);
+            var json = JsonSerializer.Serialize(_items3);
             File.WriteAllText(uRLFile3, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
@@ -146,6 +146,64 @@ namespace WhatWhere.Repositories
             foreach (var item in items)
             {
                 Console.WriteLine(item);
+            }
+        }
+        public void ClearJSONFile(string uRLString)
+        {
+            File.WriteAllText(uRLString, string.Empty);
+        }
+        public void ClearFile()
+        {
+            ClearJSONFile(uRLFile);
+            ClearJSONFile(uRLFile2);
+            ClearJSONFile(uRLFile3);
+        }
+        public void RemoveAGDById(IRepository<KitchenAccessories> repository)
+        {
+            var readfile = File.ReadAllText(uRLFile);
+            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+            if (_items != null)
+            {
+                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+                var json = JsonSerializer.Serialize(_items);
+                File.WriteAllText(uRLFile, json);
+                Console.WriteLine("Conversion to file JSON successful.");
+            }
+            else
+            {
+                throw new Exception("File is empty");
+            }
+        }
+        public void RemoveGroceriesById(IRepository<KitchenAccessories> repository)
+        {
+            var readfile = File.ReadAllText(uRLFile2);
+            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+            if (_items2 != null)
+            {
+                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+                var json = JsonSerializer.Serialize(_items2);
+                File.WriteAllText(uRLFile2, json);
+                Console.WriteLine("Conversion to file JSON successful.");
+            }
+            else
+            {
+                throw new Exception("File is empty");
+            }
+        }
+        public void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
+        {
+            var readfile = File.ReadAllText(uRLFile2);
+            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+            if (_items2 != null)
+            {
+                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+                var json = JsonSerializer.Serialize(_items2);
+                File.WriteAllText(uRLFile2, json);
+                Console.WriteLine("Conversion to file JSON successful.");
+            }
+            else
+            {
+                throw new Exception("File is empty");
             }
         }
     }
