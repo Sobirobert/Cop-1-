@@ -5,7 +5,6 @@ namespace WhatWhere.Repositories
 {
     internal class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
     {
-
         private readonly List<T> _items = new();
         private readonly List<T> _items2 = new();
         private readonly List<T> _items3 = new();
@@ -16,20 +15,22 @@ namespace WhatWhere.Repositories
         protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName2}.json";
         protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName3}.json";
 
-        public delegate void ItemAdded(object item);
+        public event EventHandler<T>? ItemAddedFile;
 
-        private readonly ItemAdded _itemAddedCallback;
+        public event EventHandler<T>? ItemRemovedFile;
 
-        private readonly Action<T> itemAddedCallback;
-        private readonly Action<T> itemRemovedCallback;
+        public event IRepository<T>.GradeAddedDelegate GradeAdded;
 
-        //public event EventHandler<T>? ItemAdded;
-        //public event EventHandler<T>? ItemRemoved;
         public void Add(T itemToSave)
         {
             itemToSave.Id = _items.Count + 1;
             _items.Add(itemToSave);
+            if (GradeAdded != null)
+            {
+                GradeAdded(this, new EventArgs());
+            }
         }
+
         public void AddInt(string value)
         {
             if (int.TryParse(value, out int number))
@@ -39,6 +40,10 @@ namespace WhatWhere.Repositories
             else
             {
                 Console.WriteLine("The conversion wasn't successful.");
+            }
+            if (GradeAdded != null)
+            {
+                GradeAdded(this, new EventArgs());
             }
         }
 
@@ -72,18 +77,21 @@ namespace WhatWhere.Repositories
             File.WriteAllText(uRLFile, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
+
         public void SaveGroceries()
         {
             var json = JsonSerializer.Serialize(_items2);
             File.WriteAllText(uRLFile2, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
+
         public void SaveKitchenAccessories()
         {
             var json = JsonSerializer.Serialize(_items3);
             File.WriteAllText(uRLFile3, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
+
         public IEnumerable<T> GetAll()
         {
             var readfile = File.ReadAllText(uRLFile);
@@ -98,6 +106,7 @@ namespace WhatWhere.Repositories
                 throw new Exception("File is empty");
             }
         }
+
         public IEnumerable<T> GetAllGroceries()
         {
             var readfile = File.ReadAllText(uRLFile2);
@@ -111,6 +120,7 @@ namespace WhatWhere.Repositories
                 throw new Exception("File is empty");
             }
         }
+
         public IEnumerable<T> GetAllKitchenAccessories()
         {
             var readfile = File.ReadAllText(uRLFile3);
@@ -124,6 +134,7 @@ namespace WhatWhere.Repositories
                 throw new Exception("File is empty");
             }
         }
+
         public void WriteAllConsoleFromFile(RepositoryToFileJson<AGD> repository1)
         {
             var items = repository1.GetAll();
@@ -132,6 +143,7 @@ namespace WhatWhere.Repositories
                 Console.WriteLine(item);
             }
         }
+
         public void WriteAllConsoleFromFileGroceries(RepositoryToFileJson<Groceries> repository2)
         {
             var items = repository2.GetAllGroceries();
@@ -140,6 +152,7 @@ namespace WhatWhere.Repositories
                 Console.WriteLine(item);
             }
         }
+
         public void WriteAllConsoleFromFileKitchenAccessories(RepositoryToFileJson<KitchenAccessories> repository3)
         {
             var items = repository3.GetAllKitchenAccessories();
@@ -148,16 +161,19 @@ namespace WhatWhere.Repositories
                 Console.WriteLine(item);
             }
         }
+
         public void ClearJSONFile(string uRLString)
         {
             File.WriteAllText(uRLString, string.Empty);
         }
+
         public void ClearFile()
         {
             ClearJSONFile(uRLFile);
             ClearJSONFile(uRLFile2);
             ClearJSONFile(uRLFile3);
         }
+
         public void RemoveAGDById(IRepository<KitchenAccessories> repository)
         {
             var readfile = File.ReadAllText(uRLFile);
@@ -174,6 +190,7 @@ namespace WhatWhere.Repositories
                 throw new Exception("File is empty");
             }
         }
+
         public void RemoveGroceriesById(IRepository<KitchenAccessories> repository)
         {
             var readfile = File.ReadAllText(uRLFile2);
@@ -190,6 +207,7 @@ namespace WhatWhere.Repositories
                 throw new Exception("File is empty");
             }
         }
+
         public void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
         {
             var readfile = File.ReadAllText(uRLFile2);
@@ -207,6 +225,4 @@ namespace WhatWhere.Repositories
             }
         }
     }
-
 }
-

@@ -8,31 +8,39 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
-
     private readonly Action<T>? _itemAddedCallback;
-    private readonly Action<T>? _itemRemoveCallback;
 
-    public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null, Action<T>? itemRemoveCallback = null)
+    public event IRepository<T>.GradeAddedDelegate GradeAdded;
+
+    public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();
         _itemAddedCallback = itemAddedCallback;
-        _itemRemoveCallback = itemRemoveCallback;
     }
 
     public event EventHandler<T>? ItemAdded;
+
     public event EventHandler<T>? ItemRemove;
+
     public void Add(T item)
     {
         _dbSet.Add(item);
+        _itemAddedCallback?.Invoke(item);
         ItemAdded?.Invoke(this, item);
+        if (GradeAdded != null)
+        {
+            GradeAdded(this, new EventArgs());
+        }
     }
+
     public IEnumerable<T> GetAll()
     {
         return _dbSet.ToList();
     }
 
     public T GetById(int id) => _dbSet.Find(id);
+
     public void Remove(T item)
     {
         _dbSet.Remove(item);
@@ -50,6 +58,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbContext.SaveChanges();
     }
+
     public void WriteAllToConsole(IReadRepository<IEntity> repository)
     {
         var items = repository.GetAll();
