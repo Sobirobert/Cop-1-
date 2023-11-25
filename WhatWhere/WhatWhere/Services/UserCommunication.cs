@@ -6,22 +6,18 @@ namespace WhatWhere.Services;
 public class UserCommunication : IUserCommunication
 {
     private readonly IRepository<AGD> _agdRepository;
-    private readonly SqlRepository<Groceries> _groceriesRepository;
-    private readonly SqlRepository<KitchenAccessories> _kitchenAccessoriesRepository;
+    private readonly IRepository<Groceries> _groceriesRepository;
+    private readonly IRepository<KitchenAccessories> _kitchenAccessoriesRepository;
     private readonly RepositoryToFileJson<AGD> _agdRepositoryToJSON;
     private readonly RepositoryToFileJson<Groceries> _groceriesRepositoryToJSON;
     private readonly RepositoryToFileJson<KitchenAccessories> _kitchenAccessoriesRepositoryToJSON;
 
-    public UserCommunication(IRepository<AGD> agdRepository, SqlRepository<Groceries> groceriesRepository, SqlRepository<KitchenAccessories> KitchenAccessoriesRepository)
+    public UserCommunication(IRepository<AGD> agdRepository, IRepository<Groceries> groceriesRepository, IRepository<KitchenAccessories> KitchenAccessoriesRepository, 
+        RepositoryToFileJson<AGD> agdRepositoryToJSON, RepositoryToFileJson<Groceries> groceriesRepositoryToJSON, RepositoryToFileJson<KitchenAccessories> KitchenAccessoriesRepositoryToJSON)
     {
         _agdRepository = agdRepository;
         _groceriesRepository = groceriesRepository;
         _kitchenAccessoriesRepository = KitchenAccessoriesRepository;
-    }
-
-    public UserCommunication(RepositoryToFileJson<AGD> agdRepositoryToJSON, RepositoryToFileJson<Groceries> groceriesRepositoryToJSON,
-           RepositoryToFileJson<KitchenAccessories> KitchenAccessoriesRepositoryToJSON)
-    {
         _agdRepositoryToJSON = agdRepositoryToJSON;
         _groceriesRepositoryToJSON = groceriesRepositoryToJSON;
         _kitchenAccessoriesRepositoryToJSON = KitchenAccessoriesRepositoryToJSON;
@@ -56,7 +52,7 @@ public class UserCommunication : IUserCommunication
                 case "1":
                     Console.WriteLine("Press information to Add AGD product");
                     Console.WriteLine("*************************************");
-                    AddAGD(_agdRepository, _agdRepositoryToJSON);
+                    AddAGD(_agdRepository);
                     break;
 
                 #endregion case 1
@@ -66,7 +62,7 @@ public class UserCommunication : IUserCommunication
                 case "2":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    AddGroceries(_groceriesRepository, _groceriesRepositoryToJSON);
+                    AddGroceries(_groceriesRepository);
                     break;
 
                 #endregion case "2"
@@ -76,7 +72,7 @@ public class UserCommunication : IUserCommunication
                 case "3":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    AddKitchenAccessories(_kitchenAccessoriesRepository, _kitchenAccessoriesRepositoryToJSON);
+                    AddKitchenAccessories(_kitchenAccessoriesRepository);
                     break;
 
                 #endregion case "3"
@@ -84,19 +80,9 @@ public class UserCommunication : IUserCommunication
                 #region case "4"
 
                 case "4":
-                    userInPut = Console.ReadLine(); 
-                    if(userInPut == "1")
-                    {
                         WriteAllToConsole(_agdRepository);
-                    }
-                    if (userInPut == "2")
-                    {
                         WriteAllToConsole(_groceriesRepository);
-                    }
-                    if (userInPut == "3")
-                    {
                         WriteAllToConsole(_kitchenAccessoriesRepository);
-                    }
                     break;
 
                 #endregion case "4"
@@ -243,8 +229,9 @@ public class UserCommunication : IUserCommunication
         }
     }
 
-    public static void AddAGD(IRepository<AGD> Repository, RepositoryToFileJson<AGD> RepositoryToFile)
+    public static void AddAGD(IRepository<AGD> Repository)
     {
+        
         Console.WriteLine("Insert name");
         var nameAGD = Console.ReadLine();
 
@@ -269,19 +256,42 @@ public class UserCommunication : IUserCommunication
         };
 
         Repository.Add(newAGD);
-        RepositoryToFile.Add(newAGD);
         Repository.Save();
-
-        // TO FILE\
-
         Console.WriteLine("Success\n");
+    }
+
+    public static void AddAGDToFile(RepositoryToFileJson<AGD> agdRepository)
+    {
+        Console.WriteLine("Insert name");
+        var nameAGD = Console.ReadLine();
+
+        Console.WriteLine("Insert Location");
+        var locationAGD = Console.ReadLine();
+
+        Console.WriteLine("Insert Count");
+        var countAGD = Console.ReadLine();
+        int countAGDInt = AddInt(countAGD);
+
+        Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
+        string dateString = Console.ReadLine();
+        DateTime endDate = AddDateTime(dateString);
+        
+        var newAGD = new AGD
+        {
+            Name = nameAGD,
+            Location = locationAGD,
+            Count = countAGDInt,
+            GuaranteeDate = endDate,
+            DateChange = DateTime.Now
+        };
+        agdRepository.Add(newAGD);
         Console.WriteLine("Do you want save insert AGD ?");
         Console.WriteLine("Insert Y - Yes, N - No.");
 
         var userChosse = Console.ReadLine();
         if (userChosse == "Y" || userChosse == "y")
         {
-            RepositoryToFile.Save();
+            agdRepository.Save();
             Console.WriteLine("Success");
         }
         else if (userChosse == "N" || userChosse == "n")
@@ -293,8 +303,7 @@ public class UserCommunication : IUserCommunication
             throw new Exception("Incorrect chose");
         }
     }
-
-    public static void AddGroceries(SqlRepository<Groceries> Repository, RepositoryToFileJson<Groceries> RepositoryToFile)
+    public static void AddGroceries(IRepository<Groceries> Repository)
     {
         Console.WriteLine("Insert name");
         var nameGroceries = Console.ReadLine();
@@ -312,30 +321,31 @@ public class UserCommunication : IUserCommunication
             Count = countcountGroceriesInt,
             DateChange = DateTime.Now
         };
-        Repository?.Add(newObject);
-        Repository?.Save();
-        RepositoryToFile?.Add(newObject);
-
+        Repository.Add(newObject);
+        Repository.Save();
         Console.WriteLine("Success");
-        Console.WriteLine("Do you want save insert Groceries ?");
-        Console.WriteLine("Insert Y - Yes, N - No.");
 
-        var userChosse = Console.ReadLine();
-        if (userChosse == "Y" || userChosse == "y")
-        {
-            RepositoryToFile?.SaveGroceries();
-        }
-        else if (userChosse == "N" || userChosse == "n")
-        {
-            Console.WriteLine("Okey, program doesn't save Groceries ?");
-        }
-        else
-        {
-            throw new Exception("Incorrect chose ");
-        }
+        //RepositoryToFile?.Add(newObject);
+
+        //Console.WriteLine("Do you want save insert Groceries ?");
+        //Console.WriteLine("Insert Y - Yes, N - No.");
+
+        //var userChosse = Console.ReadLine();
+        //if (userChosse == "Y" || userChosse == "y")
+        //{
+        //    RepositoryToFile?.SaveGroceries();
+        //}
+        //else if (userChosse == "N" || userChosse == "n")
+        //{
+        //    Console.WriteLine("Okey, program doesn't save Groceries ?");
+        //}
+        //else
+        //{
+        //    throw new Exception("Incorrect chose ");
+        //}
     }
 
-    public static void AddKitchenAccessories(SqlRepository<KitchenAccessories> Repository, RepositoryToFileJson<KitchenAccessories> RepositoryToFile)
+    public static void AddKitchenAccessories(IRepository<KitchenAccessories> Repository)
     {
         Console.WriteLine("Insert name");
         var nameKitchenAccessories = Console.ReadLine();
@@ -348,27 +358,28 @@ public class UserCommunication : IUserCommunication
         int countKitchenAccessoriesInt;
         countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
         var newObjcet = new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now };
-        Repository?.Add(newObjcet);
-        RepositoryToFile?.Add(newObjcet);
-        Repository?.Save();
-
+        Repository.Add(newObjcet);
+        Repository.Save();
         Console.WriteLine("Success");
-        Console.WriteLine("Do you want save insert Groceries ?");
-        Console.WriteLine("Insert Y - Yes, N - No.");
+       
 
-        var userChosse = Console.ReadLine();
-        if (userChosse == "Y" || userChosse == "y")
-        {
-            RepositoryToFile?.SaveKitchenAccessories();
-        }
-        else if (userChosse == "N" || userChosse == "n")
-        {
-            Console.WriteLine("Okey, program doesn't save Groceries ?");
-        }
-        else
-        {
-            throw new Exception("Incorrect chose ");
-        }
+        //RepositoryToFile?.Add(newObjcet);
+        //Console.WriteLine("Do you want save insert Groceries ?");
+        //Console.WriteLine("Insert Y - Yes, N - No.");
+
+        //var userChosse = Console.ReadLine();
+        //if (userChosse == "Y" || userChosse == "y")
+        //{
+        //    RepositoryToFile?.SaveKitchenAccessories();
+        //}
+        //else if (userChosse == "N" || userChosse == "n")
+        //{
+        //    Console.WriteLine("Okey, program doesn't save Groceries ?");
+        //}
+        //else
+        //{
+        //    throw new Exception("Incorrect chose ");
+        //}
     }
 
     #region AddInt

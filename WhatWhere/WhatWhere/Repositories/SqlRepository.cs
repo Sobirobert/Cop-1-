@@ -22,13 +22,12 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public void Add(T item)
     {
         _dbSet.Add(item);
-        _dbContext.SaveChanges();
         ItemAdded?.Invoke(this, item);
     }
 
     public IEnumerable<T> GetAll()
     {
-        return _dbSet.ToList();
+        return _dbSet.OrderBy(item => item.Id).ToList();
     }
 
     public T GetById(int id) => _dbSet.Find(id);
@@ -36,7 +35,6 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public void Remove(T item)
     {
         _dbSet.Remove(item);
-        _dbContext.SaveChanges();
         ItemRemoved?.Invoke(this, item);
     }
 
