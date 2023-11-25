@@ -3,7 +3,7 @@ using WhatWhere.Entities;
 
 namespace WhatWhere.Repositories
 {
-    internal class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
+    public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
     {
         private readonly List<T> _items = new();
         private readonly List<T> _items2 = new();
@@ -11,40 +11,19 @@ namespace WhatWhere.Repositories
         protected static readonly string fileName = "AGDFileWrite";
         protected static readonly string fileName2 = "GroceriesFileWrite";
         protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
-        protected static readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName}.json";
-        protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName2}.json";
-        protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\{fileName3}.json";
+        protected static readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName}.json";
+        protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName2}.json";
+        protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName3}.json";
 
-        public event EventHandler<T>? ItemAddedFile;
+        public event EventHandler<T> ItemAdded;
 
-        public event EventHandler<T>? ItemRemovedFile;
-
-        public event IRepository<T>.GradeAddedDelegate GradeAdded;
+        public event EventHandler<T> ItemRemoved;
 
         public void Add(T itemToSave)
         {
             itemToSave.Id = _items.Count + 1;
             _items.Add(itemToSave);
-            if (GradeAdded != null)
-            {
-                GradeAdded(this, new EventArgs());
-            }
-        }
-
-        public void AddInt(string value)
-        {
-            if (int.TryParse(value, out int number))
-            {
-                Console.WriteLine("The conversion success.");
-            }
-            else
-            {
-                Console.WriteLine("The conversion wasn't successful.");
-            }
-            if (GradeAdded != null)
-            {
-                GradeAdded(this, new EventArgs());
-            }
+            ItemAdded?.Invoke(this, itemToSave);
         }
 
         public T? GetById(int id)

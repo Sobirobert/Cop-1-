@@ -2,36 +2,28 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using WhatWhere.Data;
 using WhatWhere.Entities;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbSet<T> _dbSet;
-    private readonly DbContext _dbContext;
-    private readonly Action<T>? _itemAddedCallback;
+    private readonly WhatWhereDbContext _dbContext;
 
-    public event IRepository<T>.GradeAddedDelegate GradeAdded;
-
-    public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
+    public SqlRepository(WhatWhereDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();
-        _itemAddedCallback = itemAddedCallback;
     }
 
     public event EventHandler<T>? ItemAdded;
-
-    public event EventHandler<T>? ItemRemove;
+    public event EventHandler<T>? ItemRemoved;
 
     public void Add(T item)
     {
         _dbSet.Add(item);
-        _itemAddedCallback?.Invoke(item);
+        _dbContext.SaveChanges();
         ItemAdded?.Invoke(this, item);
-        if (GradeAdded != null)
-        {
-            GradeAdded(this, new EventArgs());
-        }
     }
 
     public IEnumerable<T> GetAll()
@@ -45,7 +37,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbSet.Remove(item);
         _dbContext.SaveChanges();
-        ItemRemove?.Invoke(this, item);
+        ItemRemoved?.Invoke(this, item);
     }
 
     public void RemoveAll()
@@ -58,13 +50,8 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbContext.SaveChanges();
     }
-
-    public void WriteAllToConsole(IReadRepository<IEntity> repository)
+    public IEnumerable<T> Read()
     {
-        var items = repository.GetAll();
-        foreach (var item in items)
-        {
-            Console.WriteLine(item);
-        }
+        return _dbSet.ToList();
     }
 }
