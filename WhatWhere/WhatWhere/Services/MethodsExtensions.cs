@@ -22,7 +22,7 @@ public class MethodsExtensions : IMethodsExtensions
 
     #endregion AddStringConversionToInt
 
-    public void AddObjectToMemory<T>(IRepository<T> repository)
+    public void AddObjectToMemory<T>(SqlRepository<T> repository, RepositoryToFileJson<T> repository2)
         where T : class, IEntity, new()
     {
         Console.WriteLine("Insert name");
@@ -45,6 +45,27 @@ public class MethodsExtensions : IMethodsExtensions
             ((AGD)(object)newObject).DateChange = DateTime.Now;
             repository?.Add(newObject);
             Console.WriteLine("AGD Added\n");
+            repository2?.Add(newObject);
+            Console.WriteLine("Do you want save object ?\n");
+            Console.WriteLine("Press Y - yes or N - no.\n");
+            var userInPut = Console.ReadLine();
+            if (userInPut == "Y" || userInPut == "y")
+            {
+                if (repository2 != null)
+                {
+                    repository2.Save();
+                    Console.WriteLine("Object Saved\n");
+                }
+
+            }
+            else if (userInPut != null && (userInPut == "N" || userInPut == "n"))
+            {
+                Console.WriteLine("Object didn't Save\n");
+            }
+            else
+            {
+                Console.WriteLine("Wrong answer");
+            }
         }
         else if (typeof(T) == typeof(Groceries))
         {
@@ -54,6 +75,24 @@ public class MethodsExtensions : IMethodsExtensions
             ((Groceries)(object)newObject).DateChange = DateTime.Now;
             repository?.Add(newObject);
             Console.WriteLine("Groceries Added\n");
+
+            Console.WriteLine("Do you want save object ?\n");
+            Console.WriteLine("Press Y - yes or N - no.\n");
+            var userInPut = Console.ReadLine();
+            if (userInPut != null && (userInPut == "Y" || userInPut == "y"))
+            {
+                repository2?.AddGroceries(newObject);
+
+                Console.WriteLine("Object Saved\n");
+            }
+            else if (userInPut != null && (userInPut == "N" || userInPut == "n"))
+            {
+                Console.WriteLine("Object didn't Save\n");
+            }
+            else
+            {
+                Console.WriteLine("Wrong answer");
+            }
         }
         else if (typeof(T) == typeof(KitchenAccessories))
         {
@@ -61,15 +100,33 @@ public class MethodsExtensions : IMethodsExtensions
             ((KitchenAccessories)(object)newObject).Location = location;
             ((KitchenAccessories)(object)newObject).Count = countInt;
             ((KitchenAccessories)(object)newObject).DateChange = DateTime.Now;
-            repository?.Add(newObject);
-            Console.WriteLine("KitchenAccessories Added\n");
-        }
+            repository.Add(newObject);
 
+            Console.WriteLine("KitchenAccessories Added\n");
+
+            Console.WriteLine("Do you want save object ?\n");
+            Console.WriteLine("Press Y - yes or N - no.\n");
+            var userInPut = Console.ReadLine();
+            if (userInPut != null && (userInPut == "Y" || userInPut == "y"))
+            {
+                repository2?.AddKitchenAccessories(newObject);
+                Console.WriteLine("Object Saved\n");
+            }
+            else if (userInPut != null && (userInPut == "N" || userInPut == "n"))
+            {
+                Console.WriteLine("Object didn't Save\n");
+            }
+            else
+            {
+                Console.WriteLine("Wrong answer");
+            }
+        }
     }
-    public void WriteAllToConsole<T>(IRepository<T> repository) where T : class, IEntity
+   
+    public void WriteAllToConsole<T>(SqlRepository<T> repository) where T : class, IEntity, new()
     {
         var items = repository.GetAll();
-        if (items.ToList() == null)
+        if (items?.ToList() == null)
         {
             Console.WriteLine($"No objects found.");
         }
@@ -78,7 +135,4 @@ public class MethodsExtensions : IMethodsExtensions
             Console.WriteLine(item);
         }
     }
-
-
 }
-

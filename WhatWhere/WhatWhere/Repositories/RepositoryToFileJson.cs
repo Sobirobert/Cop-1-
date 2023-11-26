@@ -5,23 +5,39 @@ namespace WhatWhere.Repositories
 {
     public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
     {
-        private readonly List<T> _items = new();
+        private readonly List<T> _items1 = new();
         private readonly List<T> _items2 = new();
         private readonly List<T> _items3 = new();
-        protected static readonly string fileName = "AGDFileWrite";
+        protected static readonly string fileName1 = "AGDFileWrite";
         protected static readonly string fileName2 = "GroceriesFileWrite";
         protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
-        protected static readonly string uRLFile = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName}.json";
+        protected static readonly string uRLFile1 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName1}.json";
         protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName2}.json";
         protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName3}.json";
 
         public event EventHandler<T> ItemAdded;
+
         public event EventHandler<T> ItemRemoved;
 
         public void Add(T itemToSave)
         {
-            itemToSave.Id = _items.Count + 1;
-            _items.Add(itemToSave);
+            itemToSave.Id = _items1.Count + 1;
+            _items1.Add(itemToSave);
+            Save();
+            ItemAdded?.Invoke(this, itemToSave);
+        }
+        public void AddGroceries(T itemToSave)
+        {
+            itemToSave.Id = _items2.Count + 1;
+            _items2.Add(itemToSave);
+            SaveGroceries();
+            ItemAdded?.Invoke(this, itemToSave);
+        }
+        public void AddKitchenAccessories(T itemToSave)
+        {
+            itemToSave.Id = _items3.Count + 1;
+            _items3.Add(itemToSave);
+            SaveKitchenAccessories();
             ItemAdded?.Invoke(this, itemToSave);
         }
 
@@ -29,7 +45,7 @@ namespace WhatWhere.Repositories
         {
             if (id > 0)
             {
-                return _items.Find(item => item.Id == id);
+                return _items1.Find(item => item.Id == id);
             }
             else
             {
@@ -41,7 +57,7 @@ namespace WhatWhere.Repositories
         {
             if (item != null)
             {
-                _items.Remove(item);
+                _items1.Remove(item);
             }
             else
             {
@@ -51,28 +67,28 @@ namespace WhatWhere.Repositories
 
         public void Save()
         {
-            var json = JsonSerializer.Serialize(_items);
-            File.WriteAllText(uRLFile, json);
+            var json = JsonSerializer.Serialize(_items1);
+            File.WriteAllText(uRLFile1, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
 
         public void SaveGroceries()
         {
-            var json = JsonSerializer.Serialize(_items2);
-            File.WriteAllText(uRLFile2, json);
+            var json2 = JsonSerializer.Serialize(_items2);
+            File.WriteAllText(uRLFile3, json2);
             Console.WriteLine("Conversion to file JSON successful.");
         }
 
         public void SaveKitchenAccessories()
         {
-            var json = JsonSerializer.Serialize(_items3);
-            File.WriteAllText(uRLFile3, json);
+            var json3 = JsonSerializer.Serialize(_items3);
+            File.WriteAllText(uRLFile3, json3);
             Console.WriteLine("Conversion to file JSON successful.");
         }
 
         public IEnumerable<T> GetAll()
         {
-            var readfile = File.ReadAllText(uRLFile);
+            var readfile = File.ReadAllText(uRLFile1);
             var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
 
             if (json != null)
@@ -147,20 +163,20 @@ namespace WhatWhere.Repositories
 
         public void ClearFile()
         {
-            ClearJSONFile(uRLFile);
+            ClearJSONFile(uRLFile1);
             ClearJSONFile(uRLFile2);
             ClearJSONFile(uRLFile3);
         }
 
         public void RemoveAGDById(IRepository<KitchenAccessories> repository)
         {
-            var readfile = File.ReadAllText(uRLFile);
+            var readfile = File.ReadAllText(uRLFile1);
             var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (_items != null)
+            if (_items1 != null)
             {
                 repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                var json = JsonSerializer.Serialize(_items);
-                File.WriteAllText(uRLFile, json);
+                var json = JsonSerializer.Serialize(_items1);
+                File.WriteAllText(uRLFile1, json);
                 Console.WriteLine("Conversion to file JSON successful.");
             }
             else
@@ -188,12 +204,12 @@ namespace WhatWhere.Repositories
 
         public void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
         {
-            var readfile = File.ReadAllText(uRLFile2);
+            var readfile = File.ReadAllText(uRLFile3);
             var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (_items2 != null)
+            if (_items3 != null)
             {
                 repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                var json = JsonSerializer.Serialize(_items2);
+                var json = JsonSerializer.Serialize(_items3);
                 File.WriteAllText(uRLFile2, json);
                 Console.WriteLine("Conversion to file JSON successful.");
             }

@@ -17,12 +17,14 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     }
 
     public event EventHandler<T>? ItemAdded;
+
     public event EventHandler<T>? ItemRemoved;
 
     public void Add(T item)
     {
         _dbSet.Add(item);
         ItemAdded?.Invoke(this, item);
+        _dbContext.SaveChanges();
     }
 
     public IEnumerable<T> GetAll()
@@ -48,6 +50,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         _dbContext.SaveChanges();
     }
+
     public IEnumerable<T> Read()
     {
         return _dbSet.ToList();

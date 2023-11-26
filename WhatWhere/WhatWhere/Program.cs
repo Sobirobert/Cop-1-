@@ -13,6 +13,7 @@ services.AddSingleton<IRepository<AGD>, RepositoryToFileJson<AGD>>();
 services.AddSingleton<IRepository<Groceries>, RepositoryToFileJson<Groceries>>();
 services.AddSingleton<IRepository<KitchenAccessories>, RepositoryToFileJson<KitchenAccessories>>();
 services.AddSingleton<IUserCommunication, UserCommunication>();
+services.AddSingleton<IMethodsExtensions, MethodsExtensions>();
 services.AddSingleton<IEventHandlerServices, EventHandlerServices>();
 
 var serviceProvider = services.BuildServiceProvider();

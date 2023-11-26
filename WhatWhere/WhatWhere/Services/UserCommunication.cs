@@ -5,15 +5,15 @@ namespace WhatWhere.Services;
 
 public class UserCommunication : IUserCommunication
 {
-    MethodsExtensions _methodsExtensions = new MethodsExtensions();
-    private readonly IRepository<AGD> _agdRepository;
-    private readonly IRepository<Groceries> _groceriesRepository;
-    private readonly IRepository<KitchenAccessories> _kitchenAccessoriesRepository;
+    private MethodsExtensions _methodsExtensions = new MethodsExtensions();
+    private readonly SqlRepository<AGD> _agdRepository;
+    private readonly SqlRepository<Groceries> _groceriesRepository;
+    private readonly SqlRepository<KitchenAccessories> _kitchenAccessoriesRepository;
     private readonly RepositoryToFileJson<AGD> _agdRepositoryToJSON;
     private readonly RepositoryToFileJson<Groceries> _groceriesRepositoryToJSON;
     private readonly RepositoryToFileJson<KitchenAccessories> _kitchenAccessoriesRepositoryToJSON;
 
-    public UserCommunication(IRepository<AGD> agdRepository, IRepository<Groceries> groceriesRepository, IRepository<KitchenAccessories> KitchenAccessoriesRepository,
+    public UserCommunication(SqlRepository<AGD> agdRepository, SqlRepository<Groceries> groceriesRepository, SqlRepository<KitchenAccessories> KitchenAccessoriesRepository,
         RepositoryToFileJson<AGD> agdRepositoryToJSON, RepositoryToFileJson<Groceries> groceriesRepositoryToJSON, RepositoryToFileJson<KitchenAccessories> KitchenAccessoriesRepositoryToJSON)
     {
         _agdRepository = agdRepository;
@@ -53,7 +53,7 @@ public class UserCommunication : IUserCommunication
                 case "1":
                     Console.WriteLine("Press information to Add AGD product");
                     Console.WriteLine("*************************************");
-                    _methodsExtensions.AddObjectToMemory<AGD>(_agdRepository);
+                    _methodsExtensions.AddObjectToMemory<AGD>(_agdRepository, _agdRepositoryToJSON);
                     break;
 
                 #endregion case 1
@@ -63,8 +63,7 @@ public class UserCommunication : IUserCommunication
                 case "2":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    _methodsExtensions.AddObjectToMemory<Groceries>(_groceriesRepository);
-
+                    _methodsExtensions.AddObjectToMemory<Groceries>(_groceriesRepository, _groceriesRepositoryToJSON);
                     break;
 
                 #endregion case "2"
@@ -74,7 +73,7 @@ public class UserCommunication : IUserCommunication
                 case "3":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    _methodsExtensions.AddObjectToMemory<KitchenAccessories>(_kitchenAccessoriesRepository);
+                    _methodsExtensions.AddObjectToMemory<KitchenAccessories>(_kitchenAccessoriesRepository, _kitchenAccessoriesRepositoryToJSON);
                     break;
 
                 #endregion case "3"
@@ -92,9 +91,9 @@ public class UserCommunication : IUserCommunication
                 #region case "5"
 
                 case "5":
-                    _agdRepositoryToJSON?.WriteAllConsoleFromFile(_agdRepositoryToJSON);
-                    _groceriesRepositoryToJSON?.WriteAllConsoleFromFileGroceries(_groceriesRepositoryToJSON);
-                    _kitchenAccessoriesRepositoryToJSON?.WriteAllConsoleFromFileKitchenAccessories(_kitchenAccessoriesRepositoryToJSON);
+                    //_agdRepositoryToJSON?.WriteAllConsoleFromFile(_agdRepositoryToJSON);
+                    //_groceriesRepositoryToJSON?.WriteAllConsoleFromFileGroceries(_groceriesRepositoryToJSON);
+                    //_kitchenAccessoriesRepositoryToJSON?.WriteAllConsoleFromFileKitchenAccessories(_kitchenAccessoriesRepositoryToJSON);
                     break;
 
                 #endregion case "5"
@@ -107,7 +106,7 @@ public class UserCommunication : IUserCommunication
                     var userInPut2 = Console.ReadLine();
                     if (userInPut2 == "y" || userInPut2 == "Y")
                     {
-                        _agdRepositoryToJSON.ClearFile();
+                        //_agdRepositoryToJSON.ClearFile();
                         Console.WriteLine("Memory wipe successful.");
                     }
                     else if (userInPut2 == "n" || userInPut2 == "N")
@@ -230,6 +229,7 @@ public class UserCommunication : IUserCommunication
             }
         }
     }
+
     //public static void AddAGDToFile(RepositoryToFileJson<AGD> agdRepository)
     //{
     //    Console.WriteLine("Insert name");
@@ -286,16 +286,15 @@ public class UserCommunication : IUserCommunication
     //    var countKitchenAccessories = Console.ReadLine();
     //    int countKitchenAccessoriesInt;
     //    countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
-    //    var newObjcet = new KitchenAccessories 
-    //    { 
-    //        Name = nameKitchenAccessories, 
-    //        Location = locationKitchenAccessories, 
+    //    var newObjcet = new KitchenAccessories
+    //    {
+    //        Name = nameKitchenAccessories,
+    //        Location = locationKitchenAccessories,
     //        Count = countKitchenAccessoriesInt,
-    //        DateChange = DateTime.Now 
+    //        DateChange = DateTime.Now
     //    };
     //    Repository.Add(newObjcet);
     //    Console.WriteLine("Success");
-
 
     //RepositoryToFile?.Add(newObjcet);
     //Console.WriteLine("Do you want save insert Groceries ?");
@@ -315,15 +314,12 @@ public class UserCommunication : IUserCommunication
     //    throw new Exception("Incorrect chose ");
     //}
 
-
     //public void RemoveAllMemory()
     //{
     //    _agdRepository.RemoveAll();
     //    _groceriesRepository.RemoveAll();
     //    _kitchenAccessoriesRepository.RemoveAll();
     //}
-
-   
 
     //public static void RemoveAGDById(IRepository<AGD> repository)
     //{
@@ -338,8 +334,6 @@ public class UserCommunication : IUserCommunication
     //        Console.WriteLine("Id chose is out of reach");
     //    }
     //}
-
-
 
     //public static void RemoveGroceriesById(IRepository<Groceries> repository)
     //{
@@ -372,6 +366,4 @@ public class UserCommunication : IUserCommunication
     //        Console.WriteLine("Id chose is out of reach");
     //    }
     //}
-
- 
 }
