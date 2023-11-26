@@ -5,6 +5,7 @@ namespace WhatWhere.Services;
 
 public class UserCommunication : IUserCommunication
 {
+    MethodsExtensions _methodsExtensions = new MethodsExtensions();
     private readonly IRepository<AGD> _agdRepository;
     private readonly IRepository<Groceries> _groceriesRepository;
     private readonly IRepository<KitchenAccessories> _kitchenAccessoriesRepository;
@@ -12,7 +13,7 @@ public class UserCommunication : IUserCommunication
     private readonly RepositoryToFileJson<Groceries> _groceriesRepositoryToJSON;
     private readonly RepositoryToFileJson<KitchenAccessories> _kitchenAccessoriesRepositoryToJSON;
 
-    public UserCommunication(IRepository<AGD> agdRepository, IRepository<Groceries> groceriesRepository, IRepository<KitchenAccessories> KitchenAccessoriesRepository, 
+    public UserCommunication(IRepository<AGD> agdRepository, IRepository<Groceries> groceriesRepository, IRepository<KitchenAccessories> KitchenAccessoriesRepository,
         RepositoryToFileJson<AGD> agdRepositoryToJSON, RepositoryToFileJson<Groceries> groceriesRepositoryToJSON, RepositoryToFileJson<KitchenAccessories> KitchenAccessoriesRepositoryToJSON)
     {
         _agdRepository = agdRepository;
@@ -52,7 +53,7 @@ public class UserCommunication : IUserCommunication
                 case "1":
                     Console.WriteLine("Press information to Add AGD product");
                     Console.WriteLine("*************************************");
-                    AddAGD(_agdRepository);
+                    _methodsExtensions.AddObjectToMemory<AGD>(_agdRepository);
                     break;
 
                 #endregion case 1
@@ -62,7 +63,8 @@ public class UserCommunication : IUserCommunication
                 case "2":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    AddGroceries(_groceriesRepository);
+                    _methodsExtensions.AddObjectToMemory<Groceries>(_groceriesRepository);
+
                     break;
 
                 #endregion case "2"
@@ -72,7 +74,7 @@ public class UserCommunication : IUserCommunication
                 case "3":
                     Console.WriteLine("Press information to add Groceries");
                     Console.WriteLine("*************************************");
-                    AddKitchenAccessories(_kitchenAccessoriesRepository);
+                    _methodsExtensions.AddObjectToMemory<KitchenAccessories>(_kitchenAccessoriesRepository);
                     break;
 
                 #endregion case "3"
@@ -80,9 +82,9 @@ public class UserCommunication : IUserCommunication
                 #region case "4"
 
                 case "4":
-                        WriteAllToConsole(_agdRepository);
-                        WriteAllToConsole(_groceriesRepository);
-                        WriteAllToConsole(_kitchenAccessoriesRepository);
+                    _methodsExtensions.WriteAllToConsole(_agdRepository);
+                    _methodsExtensions.WriteAllToConsole(_groceriesRepository);
+                    _methodsExtensions.WriteAllToConsole(_kitchenAccessoriesRepository);
                     break;
 
                 #endregion case "4"
@@ -150,15 +152,15 @@ public class UserCommunication : IUserCommunication
                     var userInPut5 = Console.ReadLine();
                     if (userInPut5 == "1")
                     {
-                        RemoveAGDById(_agdRepository);
+                        // RemoveAGDById(_agdRepository);
                     }
                     else if (userInPut5 == "2")
                     {
-                        RemoveGroceriesById(_groceriesRepository);
+                        // RemoveGroceriesById(_groceriesRepository);
                     }
                     else if (userInPut5 == "3")
                     {
-                        RemoveKitchenAccessoriesById(_kitchenAccessoriesRepository);
+                        //RemoveKitchenAccessoriesById(_kitchenAccessoriesRepository);
                     }
                     else
                     {
@@ -179,7 +181,7 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Enter the Id of AGD you want to delete");
                         try
                         {
-                            RemoveAGDById(_agdRepositoryToJSON);
+                            //RemoveAGDById(_agdRepositoryToJSON);
                         }
                         catch
                         {
@@ -191,7 +193,7 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Enter the Id of Groceries do you want to delete");
                         try
                         {
-                            RemoveGroceriesById(_groceriesRepositoryToJSON);
+                            //RemoveGroceriesById(_groceriesRepositoryToJSON);
                         }
                         catch
                         {
@@ -203,7 +205,7 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Enter the Id of Kitchen Accessories you want to delete");
                         try
                         {
-                            RemoveKitchenAccessoriesById(_kitchenAccessoriesRepositoryToJSON);
+                            //RemoveKitchenAccessoriesById(_kitchenAccessoriesRepositoryToJSON);
                         }
                         catch
                         {
@@ -228,195 +230,91 @@ public class UserCommunication : IUserCommunication
             }
         }
     }
+    //public static void AddAGDToFile(RepositoryToFileJson<AGD> agdRepository)
+    //{
+    //    Console.WriteLine("Insert name");
+    //    var nameAGD = Console.ReadLine();
 
-    public static void AddAGD(IRepository<AGD> Repository)
-    {
-        
-        Console.WriteLine("Insert name");
-        var nameAGD = Console.ReadLine();
+    //    Console.WriteLine("Insert Location");
+    //    var locationAGD = Console.ReadLine();
 
-        Console.WriteLine("Insert Location");
-        var locationAGD = Console.ReadLine();
+    //    Console.WriteLine("Insert Count");
+    //    var countAGD = Console.ReadLine();
+    //    int countAGDInt = AddInt(countAGD);
 
-        Console.WriteLine("Insert Count");
-        var countAGD = Console.ReadLine();
-        int countAGDInt = AddInt(countAGD);
+    //    Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
+    //    string dateString = Console.ReadLine();
+    //    DateTime endDate = AddDateTime(dateString);
 
-        Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
-        string dateString = Console.ReadLine();
-        DateTime endDate = AddDateTime(dateString);
-        // TO MEMORY
-        var newAGD = new AGD
-        {
-            Name = nameAGD,
-            Location = locationAGD,
-            Count = countAGDInt,
-            GuaranteeDate = endDate,
-            DateChange = DateTime.Now
-        };
+    //    var newAGD = new AGD
+    //    {
+    //        Name = nameAGD,
+    //        Location = locationAGD,
+    //        Count = countAGDInt,
+    //        GuaranteeDate = endDate,
+    //        DateChange = DateTime.Now
+    //    };
+    //    agdRepository.Add(newAGD);
+    //    Console.WriteLine("Do you want save insert AGD ?");
+    //    Console.WriteLine("Insert Y - Yes, N - No.");
 
-        Repository.Add(newAGD);
-        Repository.Save();
-        Console.WriteLine("Success\n");
-    }
+    //    var userChosse = Console.ReadLine();
+    //    if (userChosse == "Y" || userChosse == "y")
+    //    {
+    //        agdRepository.Save();
+    //        Console.WriteLine("Success");
+    //    }
+    //    else if (userChosse == "N" || userChosse == "n")
+    //    {
+    //        Console.WriteLine("Okey, program doesn't save AGD. ");
+    //    }
+    //    else
+    //    {
+    //        throw new Exception("Incorrect chose");
+    //    }
+    //}
 
-    public static void AddAGDToFile(RepositoryToFileJson<AGD> agdRepository)
-    {
-        Console.WriteLine("Insert name");
-        var nameAGD = Console.ReadLine();
+    //public static void AddKitchenAccessories(IRepository<KitchenAccessories> Repository)
+    //{
+    //    Console.WriteLine("Insert name");
+    //    var nameKitchenAccessories = Console.ReadLine();
 
-        Console.WriteLine("Insert Location");
-        var locationAGD = Console.ReadLine();
+    //    Console.WriteLine("Insert Location");
+    //    var locationKitchenAccessories = Console.ReadLine();
 
-        Console.WriteLine("Insert Count");
-        var countAGD = Console.ReadLine();
-        int countAGDInt = AddInt(countAGD);
+    //    Console.WriteLine("Insert Count");
+    //    var countKitchenAccessories = Console.ReadLine();
+    //    int countKitchenAccessoriesInt;
+    //    countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
+    //    var newObjcet = new KitchenAccessories 
+    //    { 
+    //        Name = nameKitchenAccessories, 
+    //        Location = locationKitchenAccessories, 
+    //        Count = countKitchenAccessoriesInt,
+    //        DateChange = DateTime.Now 
+    //    };
+    //    Repository.Add(newObjcet);
+    //    Console.WriteLine("Success");
 
-        Console.WriteLine("Insert guarantee date: (yyyy-MM-dd)");
-        string dateString = Console.ReadLine();
-        DateTime endDate = AddDateTime(dateString);
-        
-        var newAGD = new AGD
-        {
-            Name = nameAGD,
-            Location = locationAGD,
-            Count = countAGDInt,
-            GuaranteeDate = endDate,
-            DateChange = DateTime.Now
-        };
-        agdRepository.Add(newAGD);
-        Console.WriteLine("Do you want save insert AGD ?");
-        Console.WriteLine("Insert Y - Yes, N - No.");
 
-        var userChosse = Console.ReadLine();
-        if (userChosse == "Y" || userChosse == "y")
-        {
-            agdRepository.Save();
-            Console.WriteLine("Success");
-        }
-        else if (userChosse == "N" || userChosse == "n")
-        {
-            Console.WriteLine("Okey, program doesn't save AGD. ");
-        }
-        else
-        {
-            throw new Exception("Incorrect chose");
-        }
-    }
-    public static void AddGroceries(IRepository<Groceries> Repository)
-    {
-        Console.WriteLine("Insert name");
-        var nameGroceries = Console.ReadLine();
+    //RepositoryToFile?.Add(newObjcet);
+    //Console.WriteLine("Do you want save insert Groceries ?");
+    //Console.WriteLine("Insert Y - Yes, N - No.");
 
-        Console.WriteLine("Insert Location");
-        var locationGroceries = Console.ReadLine();
+    //var userChosse = Console.ReadLine();
+    //if (userChosse == "Y" || userChosse == "y")
+    //{
+    //    RepositoryToFile?.SaveKitchenAccessories();
+    //}
+    //else if (userChosse == "N" || userChosse == "n")
+    //{
+    //    Console.WriteLine("Okey, program doesn't save Groceries ?");
+    //}
+    //else
+    //{
+    //    throw new Exception("Incorrect chose ");
+    //}
 
-        Console.WriteLine("Insert Count");
-        var countGroceries = Console.ReadLine();
-        int countcountGroceriesInt = AddInt(countGroceries);
-        var newObject = new Groceries
-        {
-            Name = nameGroceries,
-            Location = locationGroceries,
-            Count = countcountGroceriesInt,
-            DateChange = DateTime.Now
-        };
-        Repository.Add(newObject);
-        Repository.Save();
-        Console.WriteLine("Success");
-
-        //RepositoryToFile?.Add(newObject);
-
-        //Console.WriteLine("Do you want save insert Groceries ?");
-        //Console.WriteLine("Insert Y - Yes, N - No.");
-
-        //var userChosse = Console.ReadLine();
-        //if (userChosse == "Y" || userChosse == "y")
-        //{
-        //    RepositoryToFile?.SaveGroceries();
-        //}
-        //else if (userChosse == "N" || userChosse == "n")
-        //{
-        //    Console.WriteLine("Okey, program doesn't save Groceries ?");
-        //}
-        //else
-        //{
-        //    throw new Exception("Incorrect chose ");
-        //}
-    }
-
-    public static void AddKitchenAccessories(IRepository<KitchenAccessories> Repository)
-    {
-        Console.WriteLine("Insert name");
-        var nameKitchenAccessories = Console.ReadLine();
-
-        Console.WriteLine("Insert Location");
-        var locationKitchenAccessories = Console.ReadLine();
-
-        Console.WriteLine("Insert Count");
-        var countKitchenAccessories = Console.ReadLine();
-        int countKitchenAccessoriesInt;
-        countKitchenAccessoriesInt = AddInt(countKitchenAccessories);
-        var newObjcet = new KitchenAccessories { Name = nameKitchenAccessories, Location = locationKitchenAccessories, Count = countKitchenAccessoriesInt, DateChange = DateTime.Now };
-        Repository.Add(newObjcet);
-        Repository.Save();
-        Console.WriteLine("Success");
-       
-
-        //RepositoryToFile?.Add(newObjcet);
-        //Console.WriteLine("Do you want save insert Groceries ?");
-        //Console.WriteLine("Insert Y - Yes, N - No.");
-
-        //var userChosse = Console.ReadLine();
-        //if (userChosse == "Y" || userChosse == "y")
-        //{
-        //    RepositoryToFile?.SaveKitchenAccessories();
-        //}
-        //else if (userChosse == "N" || userChosse == "n")
-        //{
-        //    Console.WriteLine("Okey, program doesn't save Groceries ?");
-        //}
-        //else
-        //{
-        //    throw new Exception("Incorrect chose ");
-        //}
-    }
-
-    #region AddInt
-
-    public static int AddInt(string value)
-    {
-        if (int.TryParse(value, out int number))
-        {
-            Console.WriteLine("The conversion success.");
-        }
-        else
-        {
-            Console.WriteLine("The conversion wasn't successful.");
-        }
-        return number;
-    }
-
-    #endregion AddInt
-
-    #region AddDateTime
-
-    public static DateTime AddDateTime(string value)
-    {
-        if (DateTime.TryParse(value, out DateTime date))
-        {
-            Console.WriteLine("The conversion success.");
-        }
-        else
-        {
-            Console.WriteLine("The conversion wasn't successful.");
-        }
-        return date;
-    }
-
-    #endregion AddDateTime
-
-    #region RemoveAllMemory
 
     //public void RemoveAllMemory()
     //{
@@ -425,72 +323,55 @@ public class UserCommunication : IUserCommunication
     //    _kitchenAccessoriesRepository.RemoveAll();
     //}
 
-    #endregion RemoveAllMemory
+   
 
-    #region RemoveAGDById
+    //public static void RemoveAGDById(IRepository<AGD> repository)
+    //{
+    //    Console.WriteLine("Enter the Id of product you want to delete");
+    //    try
+    //    {
+    //        repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+    //        repository.Save();
+    //    }
+    //    catch
+    //    {
+    //        Console.WriteLine("Id chose is out of reach");
+    //    }
+    //}
 
-    public static void RemoveAGDById(IRepository<AGD> repository)
-    {
-        Console.WriteLine("Enter the Id of product you want to delete");
-        try
-        {
-            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-            repository.Save();
-        }
-        catch
-        {
-            Console.WriteLine("Id chose is out of reach");
-        }
-    }
 
-    #endregion RemoveAGDById
 
-    #region RemoveGroceriesById
+    //public static void RemoveGroceriesById(IRepository<Groceries> repository)
+    //{
+    //    Console.WriteLine("Enter the Id of product you want to delete");
+    //    try
+    //    {
+    //        repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+    //        repository.Save();
+    //    }
+    //    catch
+    //    {
+    //        Console.WriteLine("Id chose is out of reach");
+    //    }
+    //}
 
-    public static void RemoveGroceriesById(IRepository<Groceries> repository)
-    {
-        Console.WriteLine("Enter the Id of product you want to delete");
-        try
-        {
-            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-            repository.Save();
-        }
-        catch
-        {
-            Console.WriteLine("Id chose is out of reach");
-        }
-    }
+    //#endregion RemoveGroceriesById
 
-    #endregion RemoveGroceriesById
+    //#region RemoveKitchenAccessoriesById
 
-    #region RemoveKitchenAccessoriesById
+    //public static void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
+    //{
+    //    Console.WriteLine("Enter the Id of product you want to delete");
+    //    try
+    //    {
+    //        repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
+    //        repository.Save();
+    //    }
+    //    catch
+    //    {
+    //        Console.WriteLine("Id chose is out of reach");
+    //    }
+    //}
 
-    public static void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
-    {
-        Console.WriteLine("Enter the Id of product you want to delete");
-        try
-        {
-            repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-            repository.Save();
-        }
-        catch
-        {
-            Console.WriteLine("Id chose is out of reach");
-        }
-    }
-
-    #endregion RemoveKitchenAccessoriesById
-    public void WriteAllToConsole<T>(IRepository<T> repository) where T : class, IEntity
-    {
-        var items = repository.GetAll();
-        if (items.ToList().Count == 0)
-        {
-            Console.WriteLine($"No objects found.");
-        }
-        foreach (var item in items)
-        {
-            Console.WriteLine(item);
-        }
-    }
-
+ 
 }

@@ -16,7 +16,6 @@ namespace WhatWhere.Repositories
         protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName3}.json";
 
         public event EventHandler<T> ItemAdded;
-
         public event EventHandler<T> ItemRemoved;
 
         public void Add(T itemToSave)

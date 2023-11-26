@@ -5,9 +5,7 @@ namespace WhatWhere.Services;
 
 public interface IMethodsExtensions
 {
-    //void AddAGD(IRepository<T> Repository, IRepository<T> RepositoryToFile) 
-    //{
-
-    //}
+    int AddStringConversionToInt(string value);
+    void AddObjectToMemory<T>(IRepository<T> repository) where T : class, IEntity, new() { }
 }
 
