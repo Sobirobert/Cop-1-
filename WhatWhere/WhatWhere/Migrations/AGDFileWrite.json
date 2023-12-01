@@ -1,14 +1,16 @@
-[{
-"Name":"\u0141opatka drewniana ",
-"Location":"szuflada ze sztu\u0107cami ",
-"Count":3,
-"DateChange":"2023-11-26T15:49:18.2011705+01:00",
-"Id":2
-},
-{
-"Name":"\u0141opatka drewniana ",
-"Location":"szuflada ze sztu\u0107cami ",
-"Count":3,
-"DateChange":"2023-11-26T15:49:18.2011705+01:00",
-"Id":2
-}]
+[
+  {
+    "Name": "blender",
+    "Location": "szafka",
+    "Count": 2,
+    "DateChange": "2023-11-30T13:18:45.104537+01:00",
+    "Id": 2
+  },
+  {
+    "Name": "microfala",
+    "Location": "blat",
+    "Count": 1,
+    "DateChange": "2023-11-30T13:19:02.2254954+01:00",
+    "Id": 3
+  }
+]

@@ -32,6 +32,11 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
         return _dbSet.OrderBy(item => item.Id).ToList();
     }
 
+    public IEnumerable<T> GetAll(string url)
+    {
+        throw new NotImplementedException();
+    }
+
     public T GetById(int id) => _dbSet.Find(id);
 
     public void Remove(T item)
@@ -54,5 +59,55 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public IEnumerable<T> Read()
     {
         return _dbSet.ToList();
+    }
+
+    public T GetByIdAGD(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T GetByIdGroceries(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T GetByIdKitchenAccessories(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void WriteAllConsoleFromFileAGD(IRepository<AGD> repository1)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void WriteAllConsoleFromFileGroceries(IRepository<Groceries> repository1)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ReadAllConsoleFromFileKitchenAccessories(IRepository<KitchenAccessories> repository1)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ClearAllFile()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveAGDById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveGroceriesById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveKitchenAccessoriesById(int id)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -9,5 +9,11 @@ namespace WhatWhere.Repositories
         void Remove(T item);
 
         void Save();
+
+        void RemoveAGDById(int id);
+
+        void RemoveGroceriesById(int id);
+
+        void RemoveKitchenAccessoriesById(int id);
     }
 }

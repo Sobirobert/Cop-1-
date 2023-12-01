@@ -7,5 +7,9 @@ public interface IMethodsExtensions
 {
     int AddStringConversionToInt(string value);
 
-    void AddObjectToMemory<T>(IRepository<T> repository) where T : class, IEntity, new() { }
+    void AddAGDObjectToMemory(IRepository<AGD> repository) { }
+
+    void AddGroceriesObjectToMemory(IRepository<Groceries> repository) { }
+
+    void AddKitchenAccessoriesObjectToMemory(IRepository<KitchenAccessories> repository) { }
 }

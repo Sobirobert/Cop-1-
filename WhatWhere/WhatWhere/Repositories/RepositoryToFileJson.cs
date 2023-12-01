@@ -1,222 +1,230 @@
 ﻿using System.Text.Json;
 using WhatWhere.Entities;
 
-namespace WhatWhere.Repositories
+namespace WhatWhere.Repositories;
+
+public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
 {
-    public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
+    private readonly List<T> _items1 = new();
+    private readonly List<T> _items2 = new();
+    private readonly List<T> _items3 = new();
+    protected static readonly string fileName1 = "AGDFileWrite";
+    protected static readonly string fileName2 = "GroceriesFileWrite";
+    protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
+    protected static readonly string uRLFile1 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName1}.json";
+    protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName2}.json";
+    protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName3}.json";
+
+    public event EventHandler<T> ItemAdded;
+
+    public event EventHandler<T> ItemRemoved;
+
+    public void Add(T item)
     {
-        private readonly List<T> _items1 = new();
-        private readonly List<T> _items2 = new();
-        private readonly List<T> _items3 = new();
-        protected static readonly string fileName1 = "AGDFileWrite";
-        protected static readonly string fileName2 = "GroceriesFileWrite";
-        protected static readonly string fileName3 = "KitchenAccessoriesFileWrite";
-        protected static readonly string uRLFile1 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName1}.json";
-        protected static readonly string uRLFile2 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName2}.json";
-        protected static readonly string uRLFile3 = $@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Migrations\{fileName3}.json";
-
-        public event EventHandler<T> ItemAdded;
-
-        public event EventHandler<T> ItemRemoved;
-
-        public void Add(T itemToSave)
+        if (typeof(T) == typeof(AGD))
         {
-            itemToSave.Id = _items1.Count + 1;
-            _items1.Add(itemToSave);
+            item.Id = _items1.Count + 1;
+            _items1.Add(item);
             Save();
-            ItemAdded?.Invoke(this, itemToSave);
+            ItemAdded?.Invoke(this, item);
         }
-        public void AddGroceries(T itemToSave)
+        else if (typeof(T) == typeof(Groceries))
         {
-            itemToSave.Id = _items2.Count + 1;
-            _items2.Add(itemToSave);
-            SaveGroceries();
-            ItemAdded?.Invoke(this, itemToSave);
+            item.Id = _items2.Count + 1;
+            _items2.Add(item);
+            Save();
+            ItemAdded?.Invoke(this, item);
         }
-        public void AddKitchenAccessories(T itemToSave)
+        else if (typeof(T) == typeof(KitchenAccessories))
         {
-            itemToSave.Id = _items3.Count + 1;
-            _items3.Add(itemToSave);
-            SaveKitchenAccessories();
-            ItemAdded?.Invoke(this, itemToSave);
+            item.Id = _items3.Count + 1;
+            _items3.Add(item);
+            Save();
+            ItemAdded?.Invoke(this, item);
         }
+    }
 
-        public T? GetById(int id)
+    public T? GetById(int id)
+    {
+        if (id > 0)
         {
-            if (id > 0)
-            {
-                return _items1.Find(item => item.Id == id);
-            }
-            else
-            {
-                throw new IndexOutOfRangeException();
-            }
+            return _items1.Find(item => item.Id == id);
         }
-
-        public void Remove(T item)
+        else
         {
-            if (item != null)
-            {
-                _items1.Remove(item);
-            }
-            else
-            {
-                throw new InvalidOperationException("The product doesn't exist");
-            }
+            throw new IndexOutOfRangeException();
         }
+    }
 
-        public void Save()
+    public void Remove(T item)
+    {
+        if (item != null)
+        {
+            _items1.Remove(item);
+        }
+        else
+        {
+            throw new InvalidOperationException("The product doesn't exist");
+        }
+    }
+
+    public void Save()
+    {
+        if (typeof(T) == typeof(AGD))
         {
             var json = JsonSerializer.Serialize(_items1);
             File.WriteAllText(uRLFile1, json);
             Console.WriteLine("Conversion to file JSON successful.");
         }
-
-        public void SaveGroceries()
+        else if (typeof(T) == typeof(Groceries))
         {
             var json2 = JsonSerializer.Serialize(_items2);
-            File.WriteAllText(uRLFile3, json2);
+            File.WriteAllText(uRLFile2, json2);
             Console.WriteLine("Conversion to file JSON successful.");
         }
-
-        public void SaveKitchenAccessories()
+        else if (typeof(T) == typeof(KitchenAccessories))
         {
             var json3 = JsonSerializer.Serialize(_items3);
             File.WriteAllText(uRLFile3, json3);
             Console.WriteLine("Conversion to file JSON successful.");
         }
+    }
 
-        public IEnumerable<T> GetAll()
+    public IEnumerable<T> GetAll(string url)
+    {
+        var readfile = File.ReadAllText(url);
+        var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+
+        if (json != null || json.Any())
         {
-            var readfile = File.ReadAllText(uRLFile1);
-            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-
-            if (json != null)
-            {
-                return json.ToList();
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            return json.ToList();
         }
-
-        public IEnumerable<T> GetAllGroceries()
+        else
         {
-            var readfile = File.ReadAllText(uRLFile2);
-            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (json != null)
-            {
-                return json.ToList();
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            throw new Exception("File is empty");
         }
+    }
 
-        public IEnumerable<T> GetAllKitchenAccessories()
+    public void WriteAllConsoleFromFileAGD(IRepository<AGD> repository1)
+    {
+        var items = repository1.GetAll(uRLFile1);
+        foreach (var item in items)
         {
-            var readfile = File.ReadAllText(uRLFile3);
-            var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (json != null)
-            {
-                return json.ToList();
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            Console.WriteLine(item);
         }
+    }
 
-        public void WriteAllConsoleFromFile(RepositoryToFileJson<AGD> repository1)
+    public void WriteAllConsoleFromFileGroceries(IRepository<Groceries> repository1)
+    {
+        var items = repository1.GetAll(uRLFile2);
+        foreach (var item in items)
         {
-            var items = repository1.GetAll();
-            foreach (var item in items)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine(item);
         }
+    }
 
-        public void WriteAllConsoleFromFileGroceries(RepositoryToFileJson<Groceries> repository2)
+    public void ReadAllConsoleFromFileKitchenAccessories(IRepository<KitchenAccessories> repository1)
+    {
+        var items = repository1.GetAll(uRLFile3);
+        foreach (var item in items)
         {
-            var items = repository2.GetAllGroceries();
-            foreach (var item in items)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine(item);
         }
+    }
 
-        public void WriteAllConsoleFromFileKitchenAccessories(RepositoryToFileJson<KitchenAccessories> repository3)
+    public void ClearJSONFile(string uRLString)
+    {
+        File.WriteAllText(uRLString, string.Empty);
+    }
+
+    public void ClearAllFile()
+    {
+        ClearJSONFile(uRLFile1);
+        ClearJSONFile(uRLFile2);
+        ClearJSONFile(uRLFile3);
+    }
+
+    public T GetByIdAGD(int id)
+    {
+        var readfile = File.ReadAllText(uRLFile1);
+        var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+        var itemById = json.ToList().SingleOrDefault(i => i.Id == id);
+        if (itemById == null)
         {
-            var items = repository3.GetAllKitchenAccessories();
-            foreach (var item in items)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine($"Object {typeof(T).Name} with id {id} not found.");
         }
+        return itemById;
+    }
 
-        public void ClearJSONFile(string uRLString)
+    public T GetByIdGroceries(int id)
+    {
+        var readfile = File.ReadAllText(uRLFile2);
+        var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+        var itemById = json.ToList().SingleOrDefault(i => i.Id == id);
+        if (itemById == null)
         {
-            File.WriteAllText(uRLString, string.Empty);
+            Console.WriteLine($"Object {typeof(T).Name} with id {id} not found.");
         }
+        return itemById;
+    }
 
-        public void ClearFile()
+    public T GetByIdKitchenAccessories(int id)
+    {
+        var readfile = File.ReadAllText(uRLFile3);
+        var json = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
+        var itemById = json.ToList().SingleOrDefault(i => i.Id == id);
+        if (itemById == null)
         {
-            ClearJSONFile(uRLFile1);
-            ClearJSONFile(uRLFile2);
-            ClearJSONFile(uRLFile3);
+            Console.WriteLine($"Object {typeof(T).Name} with id {id} not found.");
         }
+        return itemById;
+    }
 
-        public void RemoveAGDById(IRepository<KitchenAccessories> repository)
+    public void RemoveAGDById(int id)
+    {
+        var file = GetAll(uRLFile1);
+        if (file != null)
         {
-            var readfile = File.ReadAllText(uRLFile1);
-            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (_items1 != null)
-            {
-                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                var json = JsonSerializer.Serialize(_items1);
-                File.WriteAllText(uRLFile1, json);
-                Console.WriteLine("Conversion to file JSON successful.");
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            var list = file.Where(i => i.Id != id).ToList();
+            var json = JsonSerializer.Serialize(list);
+            File.WriteAllText(uRLFile1, json);
+            Console.WriteLine("Conversion to file JSON successful.");
         }
-
-        public void RemoveGroceriesById(IRepository<KitchenAccessories> repository)
+        else
         {
-            var readfile = File.ReadAllText(uRLFile2);
-            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (_items2 != null)
-            {
-                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                var json = JsonSerializer.Serialize(_items2);
-                File.WriteAllText(uRLFile2, json);
-                Console.WriteLine("Conversion to file JSON successful.");
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            throw new Exception("File is empty");
         }
+    }
 
-        public void RemoveKitchenAccessoriesById(IRepository<KitchenAccessories> repository)
+    public void RemoveGroceriesById(int id)
+    {
+        var file = GetAll(uRLFile2);
+        if (file != null)
         {
-            var readfile = File.ReadAllText(uRLFile3);
-            var reafFileDeserialize = JsonSerializer.Deserialize<IEnumerable<T>>(readfile);
-            if (_items3 != null)
-            {
-                repository.Remove(repository.GetById(int.Parse(Console.ReadLine())));
-                var json = JsonSerializer.Serialize(_items3);
-                File.WriteAllText(uRLFile2, json);
-                Console.WriteLine("Conversion to file JSON successful.");
-            }
-            else
-            {
-                throw new Exception("File is empty");
-            }
+            var list = file.Where(i => i.Id != id).ToList();
+            var json = JsonSerializer.Serialize(list);
+            File.WriteAllText(uRLFile2, json);
+            Console.WriteLine("Conversion to file JSON successful.");
+        }
+        else
+        {
+            throw new Exception("File is empty");
+        }
+    }
+
+    public void RemoveKitchenAccessoriesById(int id)
+    {
+        var file = GetAll(uRLFile3);
+        if (file != null)
+        {
+            var list = file.Where(i => i.Id != id).ToList();
+            var json = JsonSerializer.Serialize(list);
+            File.WriteAllText(uRLFile3, json);
+            Console.WriteLine("Conversion to file JSON successful.");
+        }
+        else
+        {
+            throw new Exception("File is empty");
         }
     }
 }
