@@ -8,16 +8,16 @@ namespace WhatWhere.Services;
 public class UserCommunication : IUserCommunication
 {
     private readonly IRepository<AGD> _agdRepositoryToJSON;
-    private readonly IRepository<Groceries> _groceriesRepositoryToJSON;
-    private readonly IRepository<KitchenAccessories> _kitchenAccessoriesRepositoryToJSON;
+    private readonly IRepository<FoodProduct> _foodProductRepositoryToJSON;
+    private readonly IRepository<KitchenAccessory> _kitchenAccessoryRepositoryToJSON;
     private readonly IAdditionalOption _additionalOption;
 
-    public UserCommunication(IRepository<AGD> agdRepositoryToJSON, IRepository<Groceries> groceriesRepositoryToJSON, IRepository<KitchenAccessories> KitchenAccessoriesRepositoryToJSON,
+    public UserCommunication(IRepository<AGD> agdRepositoryToJSON, IRepository<FoodProduct> groceriesRepositoryToJSON, IRepository<KitchenAccessory> KitchenAccessoriesRepositoryToJSON,
         IAdditionalOption additionalOption)
     {
         _agdRepositoryToJSON = agdRepositoryToJSON;
-        _groceriesRepositoryToJSON = groceriesRepositoryToJSON;
-        _kitchenAccessoriesRepositoryToJSON = KitchenAccessoriesRepositoryToJSON;
+        _foodProductRepositoryToJSON = groceriesRepositoryToJSON;
+        _kitchenAccessoryRepositoryToJSON = KitchenAccessoriesRepositoryToJSON;
         _additionalOption = additionalOption;
     }
 
@@ -47,20 +47,20 @@ public class UserCommunication : IUserCommunication
                     }
                     else if (inPut == 2)
                     {
-                        AddNewGroceries(_groceriesRepositoryToJSON);
+                        AddNewGroceries(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
 
                     }
                     else if (inPut == 3)
                     {
-                        AddNewKitchenAccessories(_kitchenAccessoriesRepositoryToJSON);
+                        AddNewKitchenAccessories(_kitchenAccessoryRepositoryToJSON);
                         Console.WriteLine("Success");
                     }
                     break;
                 case "2":
                     WriteAllToConsole(_agdRepositoryToJSON);
-                    WriteAllToConsole(_groceriesRepositoryToJSON);
-                    WriteAllToConsole(_kitchenAccessoriesRepositoryToJSON);
+                    WriteAllToConsole(_foodProductRepositoryToJSON);
+                    WriteAllToConsole(_kitchenAccessoryRepositoryToJSON);
                     break;
                 case "3":
                     var userInPut2 = GetInputFromUserAndReturnInt("\nWhich Entities do you want to find by Id ? \n Press 1 - AGD, 2 - Groceries, 3 - KitchenAccessories.\n");
@@ -72,13 +72,13 @@ public class UserCommunication : IUserCommunication
                     }
                     else if (userInPut2 == 2)
                     {
-                        FindProductById(_groceriesRepositoryToJSON);
+                        FindProductById(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
 
                     }
                     else if (userInPut2 == 3)
                     {
-                        FindProductById(_kitchenAccessoriesRepositoryToJSON);
+                        FindProductById(_kitchenAccessoryRepositoryToJSON);
                         Console.WriteLine("Success");
                     }
                     break;
@@ -92,13 +92,13 @@ public class UserCommunication : IUserCommunication
                     }
                     else if (userInPut3 == 2)
                     {
-                        RemoveEntity(_groceriesRepositoryToJSON);
+                        RemoveEntity(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
 
                     }
                     else if (userInPut3 == 3)
                     {
-                        RemoveEntity(_kitchenAccessoriesRepositoryToJSON);
+                        RemoveEntity(_kitchenAccessoryRepositoryToJSON);
                         Console.WriteLine("Success");
                     }
                     break;
@@ -107,7 +107,7 @@ public class UserCommunication : IUserCommunication
                     break;
                 case "x":
                 case "X":
-                    CloseAppSaveChanges(_agdRepositoryToJSON, _groceriesRepositoryToJSON, _kitchenAccessoriesRepositoryToJSON);
+                    CloseAppSaveChanges(_agdRepositoryToJSON, _foodProductRepositoryToJSON, _kitchenAccessoryRepositoryToJSON);
                     return;
                 default:
                     Console.WriteLine("Invalid operation");
@@ -117,7 +117,7 @@ public class UserCommunication : IUserCommunication
     }
 
 
-    private bool CloseAppSaveChanges(IRepository<AGD> agdRepository, IRepository<Groceries> groceriesRepository, IRepository<KitchenAccessories> kitchenAccessoriesRepository)
+    private bool CloseAppSaveChanges(IRepository<AGD> agdRepository, IRepository<FoodProduct> foodProductRepository, IRepository<KitchenAccessory> kitchenAccessoryRepository)
     {
         while (true)
         {
@@ -125,8 +125,8 @@ public class UserCommunication : IUserCommunication
             if (choice == "Y")
             {
                 agdRepository.Save();
-                groceriesRepository.Save();
-                kitchenAccessoriesRepository.Save();
+                foodProductRepository.Save();
+                kitchenAccessoryRepository.Save();
                 Console.WriteLine("Changes saved.");
                 return true;
             }
@@ -206,7 +206,7 @@ public class UserCommunication : IUserCommunication
         Console.WriteLine($"AGD Added: {name}");
     }
 
-    private void AddNewKitchenAccessories(IRepository<KitchenAccessories> kitchenAccessoriesRepositoryToJSON)
+    private void AddNewKitchenAccessories(IRepository<KitchenAccessory> kitchenAccessoryRepositoryToJSON)
     {
         Console.WriteLine("Insert name");
         var name = Console.ReadLine();
@@ -218,19 +218,19 @@ public class UserCommunication : IUserCommunication
         var count = Console.ReadLine();
         int countInt = AddStringConversionToInt(count);
 
-        var newObjcet = new KitchenAccessories
+        var newObjcet = new KitchenAccessory
         {
             Name = name,
             Location = location,
             Count = countInt,
             DateChange = DateTime.Now
         };
-        kitchenAccessoriesRepositoryToJSON.Add(newObjcet);
+        kitchenAccessoryRepositoryToJSON.Add(newObjcet);
         Console.WriteLine($"KitchenAccessories Added: {name}");
 
     }
 
-    private void AddNewGroceries(IRepository<Groceries> groceriesRepositoryToJSON)
+    private void AddNewGroceries(IRepository<FoodProduct> foodProductRepositoryToJSON)
     {
         Console.WriteLine("Insert name");
         var name = Console.ReadLine();
@@ -242,14 +242,14 @@ public class UserCommunication : IUserCommunication
         var count = Console.ReadLine();
         int countInt = AddStringConversionToInt(count);
 
-        var newObjcet = new Groceries
+        var newObjcet = new FoodProduct
         {
             Name = name,
             Location = location,
             Count = countInt,
             DateChange = DateTime.Now
         };
-        groceriesRepositoryToJSON.Add(newObjcet);
+        foodProductRepositoryToJSON.Add(newObjcet);
         Console.WriteLine($"Groceries Added: {name}");
     }
     static int GetInputFromUserAndReturnInt(string comment)

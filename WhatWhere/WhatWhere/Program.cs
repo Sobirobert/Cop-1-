@@ -8,15 +8,15 @@ using WhatWhere.Services;
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 services.AddSingleton<IRepository<AGD>, SqlRepository<AGD>>();
-services.AddSingleton<IRepository<Groceries>, SqlRepository<Groceries>>();
-services.AddSingleton<IRepository<KitchenAccessories>, SqlRepository<KitchenAccessories>>();
+services.AddSingleton<IRepository<FoodProduct>, SqlRepository<FoodProduct>>();
+services.AddSingleton<IRepository<KitchenAccessory>, SqlRepository<KitchenAccessory>>();
 services.AddSingleton<IRepository<AGD>, RepositoryToFileJson<AGD>>();
-services.AddSingleton<IRepository<Groceries>, RepositoryToFileJson<Groceries>>();
-services.AddSingleton<IRepository<KitchenAccessories>, RepositoryToFileJson<KitchenAccessories>>();
+services.AddSingleton<IRepository<FoodProduct>, RepositoryToFileJson<FoodProduct>>();
+services.AddSingleton<IRepository<KitchenAccessory>, RepositoryToFileJson<KitchenAccessory>>();
 services.AddSingleton<IUserCommunication, UserCommunication>();
 services.AddSingleton<IEventHandlerServices, EventHandlerServices>();
 services.AddSingleton<IAdditionalOption, AdditionalOption>();
-services.AddSingleton<IEntitiesProvider, EntitiesProvider>();
+services.AddSingleton<IFoodProductProvider, FoodProductProvider>();
 
 
 var serviceProvider = services.BuildServiceProvider();

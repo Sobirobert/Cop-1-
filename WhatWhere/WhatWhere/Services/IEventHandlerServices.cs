@@ -6,21 +6,21 @@ namespace WhatWhere.Services
     {
         void ThingAddedAGD(AGD item);
 
-        void ThingAddedGroceries(Groceries item);
+        void ThingAddedGroceries(FoodProduct item);
 
-        void ThingAddedKitchenAccessories(KitchenAccessories item);
+        void ThingAddedKitchenAccessories(KitchenAccessory item);
 
         void ThingAGDRepositoryOnItemAdded(object? sender, AGD e);
 
-        void ThingGroceriesRepositoryOnItemAdded(object? sender, Groceries e);
+        void ThingGroceriesRepositoryOnItemAdded(object? sender, FoodProduct e);
 
-        void ThingKitchenAccessoriesRepositoryOnItemAdded(object? sender, KitchenAccessories e);
+        void ThingKitchenAccessoriesRepositoryOnItemAdded(object? sender, KitchenAccessory e);
 
         void ThingAGDRepositoryOnItemRemove(object? sender, AGD e);
 
-        void ThingGroceriesRepositoryOnItemRemove(object? sender, Groceries e);
+        void ThingGroceriesRepositoryOnItemRemove(object? sender, FoodProduct e);
 
-        void ThingKitchenAccessoriesRepositoryOnItemRemove(object? sender, KitchenAccessories e);
+        void ThingKitchenAccessoriesRepositoryOnItemRemove(object? sender, KitchenAccessory e);
 
         void SubscribeToEvents();
     }

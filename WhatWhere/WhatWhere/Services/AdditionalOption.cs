@@ -6,10 +6,10 @@ namespace WhatWhere.Services;
 
 public class AdditionalOption : IAdditionalOption
 {
-    private readonly IEntitiesProvider _entitiesProviderGroceries;
-    public AdditionalOption(IEntitiesProvider entitiesProviderGroceries)
+    private readonly IFoodProductProvider _foodProductProvider;
+    public AdditionalOption(IFoodProductProvider entitiesProviderGroceries)
     {
-        _entitiesProviderGroceries = entitiesProviderGroceries;
+        _foodProductProvider = entitiesProviderGroceries;
     }
     public void Menu()
     {
@@ -50,7 +50,7 @@ public class AdditionalOption : IAdditionalOption
 
     private void SelectByLocationFridge()
     {
-        var names = _entitiesProviderGroceries.SelectByLocationFridge();
+        var names = _foodProductProvider.SelectByLocationFridge();
         foreach (var name in names)
         {
             Console.WriteLine(name);
@@ -59,7 +59,7 @@ public class AdditionalOption : IAdditionalOption
 
     private void OrderByLocation()
     {
-        var names = _entitiesProviderGroceries.OrderByLocation();
+        var names = _foodProductProvider.OrderByLocation();
         foreach (var name in names)
         {
             Console.WriteLine(name);
@@ -68,7 +68,7 @@ public class AdditionalOption : IAdditionalOption
 
     private void OrderByNameDescending()
     {
-        var names = _entitiesProviderGroceries.OrderByNameDescending();
+        var names = _foodProductProvider.OrderByNameDescending();
         foreach (var name in names)
         {
             Console.WriteLine(name);
@@ -77,7 +77,7 @@ public class AdditionalOption : IAdditionalOption
 
     public void SelectLowCountProducts()
     {
-        var names = _entitiesProviderGroceries.OrderByCountDescending();
+        var names = _foodProductProvider.OrderByCountDescending();
         foreach (var name in names)
         {
             Console.WriteLine($" Your min count product is: {name}");

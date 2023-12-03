@@ -5,9 +5,9 @@ using WhatWhere.Entities;
 
 public class WhatWhereDbContext : DbContext
 {
-    public DbSet<AGD> _AGD => Set<AGD>();
-    public DbSet<Groceries> _Groceries => Set<Groceries>();
-    public DbSet<KitchenAccessories> _KitchenAccessories => Set<KitchenAccessories>();
+    public DbSet<AGD> AGD => Set<AGD>();
+    public DbSet<FoodProduct> FoodProduct => Set<FoodProduct>();
+    public DbSet<KitchenAccessory> KitchenAccessory => Set<KitchenAccessory>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

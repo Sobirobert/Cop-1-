@@ -1,69 +1,66 @@
-﻿using WhatWhere.DataProviders.Extensions;
-using System.Text;
-using WhatWhere.Entities;
+﻿using WhatWhere.Entities;
 using WhatWhere.Repositories;
-using System.Data.Entity.Core.Metadata.Edm;
 
 namespace WhatWhere.DataProviders;
 
-public class EntitiesProvider : IEntitiesProvider
+public class FoodProductProvider : IFoodProductProvider
 {
-    private readonly IRepository<Groceries> _groceriesProvider;
-    public EntitiesProvider(IRepository<Groceries> groceriesProvider)
+    private readonly IRepository<FoodProduct> _foodProductProvider;
+    public FoodProductProvider(IRepository<FoodProduct> foodProductProvider)
     {
-        _groceriesProvider = groceriesProvider;
+        _foodProductProvider = foodProductProvider;
     }
 
-    public List<Groceries> OrderByNameDescending()
+    public List<FoodProduct> OrderByNameDescending()
     {
-        var entitys = _groceriesProvider.GetAll();
+        var entitys = _foodProductProvider.GetAll();
         return entitys.OrderByDescending(x => x.Name).ToList();
     }
 
-    public List<Groceries> OrderByCountDescending()
+    public List<FoodProduct> OrderByCountDescending()
     {
-        var entitys = _groceriesProvider.GetAll();
+        var entitys = _foodProductProvider.GetAll();
         return entitys.OrderByDescending(x => x.Count).ToList();
     }
 
-    public List<Groceries> OrderByLocation()
+    public List<FoodProduct> OrderByLocation()
     {
-        var entitys = _groceriesProvider.GetAll();
+        var entitys = _foodProductProvider.GetAll();
         return entitys.OrderByDescending(x => x.Location).ToList();
     }
-    public List<Groceries> SelectByLocationFridge()
+    public List<FoodProduct> SelectByLocationFridge()
     {
-        var entitys = _groceriesProvider.GetAll();
+        var entitys = _foodProductProvider.GetAll();
         return entitys.Where(x => x.Location == "Fridge").ToList();
     }
 
 
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.OrderBy(x => x.Name).ToList();
     //}
 
     //public List<Groceries> SelectLowCountProducts()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.OrderByDescending(x => x.Count).ToList();
     //}
 
     //public List<string> GetUniqueEntitiesByName()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Select(c => c.Location).Distinct().ToList();
     //}
 
     //public int SelectByCountSortByMin()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Select(x => x.Count).Max();
     //}
 
     //public List<Groceries> GetSpecificColumns()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    var list = entitys.Select(entity => new Groceries
     //    {
     //        Id = entity.Id,
@@ -75,7 +72,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public string AnonymousClass()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    var list = entitys.Select(entity => new
     //    {
     //        Identifier = entity.Id,
@@ -97,13 +94,13 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> OrderByNameDescending()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.OrderByDescending(x => x.Name).ToList();
     //}
 
     //public List<Groceries> OrderByCountAndName()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.OrderBy(x => x.Count)
     //        .ThenBy(x => x.Name)
     //        .ToList();
@@ -111,7 +108,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> OrderByCountAndNameDesc()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.OrderByDescending(x => x.Count)
     //        .ThenByDescending(x => x.Name)
     //        .ToList();
@@ -119,37 +116,37 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> WhereStartsWith(string prefix)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Where(x => x.Name.StartsWith(prefix)).ToList();
     //}
 
     //public List<Groceries> WhereStartsWithAndCountIsGreaterThan(string prefix, decimal count)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Where(x => x.Name.StartsWith(prefix) && x.Count > count).ToList();
     //}
 
     //public List<Groceries> WhereColorIs(string location)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.ByLocation(location).ToList();
     //}
 
     //public Groceries FirstByLocation(string location)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.First(x => x.Location == location);
     //}
 
     //public Groceries? FirstOrDefaultByLocation(string location)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.FirstOrDefault(x => x.Location == location);
     //}
 
     //public Groceries FirstOrDefaultByLocationWithDefault(string location)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //        .FirstOrDefault(
     //        x => x.Location == location,
@@ -158,25 +155,25 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public Groceries LastByCount(int count)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Last(x => x.Count == count);
     //}
 
     //public Groceries SingleById(int id)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Single(x => x.Id == id);
     //}
 
     //public Groceries SingleOrDefaultById(int id)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.SingleOrDefault(x => x.Id == id);
     //}
 
     //public List<Groceries> TakeGroceries(int howMany)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //        .OrderBy(x => x.Name)
     //        .Take(howMany)
@@ -185,7 +182,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> TakeGroceries(Range range)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //        .OrderBy(x => x.Name)
     //        .Take(range)
@@ -194,7 +191,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> TakeCarsWhileNameStartsWith(string prefix)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //       .OrderBy(x => x.Name)
     //       .TakeWhile(x => x.Name.StartsWith(prefix))
@@ -203,7 +200,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> SkipGroceries(int howMany)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //       .OrderBy(x => x.Name)
     //       .Skip(howMany)
@@ -212,7 +209,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> SkipGroceriesWhileNameStartsWit(string prefix)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //      .OrderBy(x => x.Name)
     //      .SkipWhile(x => x.Name.StartsWith(prefix))
@@ -221,7 +218,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<string> DistinctAllLocation()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //        .Select(x => x.Location)
     //        .Distinct()
@@ -231,7 +228,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries> DistinctByLocation()
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys
     //        .DistinctBy(x => x.Location)
     //        .OrderBy(x => x.Count)
@@ -240,7 +237,7 @@ public class EntitiesProvider : IEntitiesProvider
 
     //public List<Groceries[]> ChunkGroceries(int size)
     //{
-    //    var entitys = _groceriesProvider.GetAll();
+    //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Chunk(size).ToList();
     //}
 

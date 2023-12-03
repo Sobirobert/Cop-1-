@@ -2,12 +2,12 @@
 
 namespace WhatWhere.DataProviders;
 
-public interface IEntitiesProvider
+public interface IFoodProductProvider
 {
-    List<Groceries> OrderByNameDescending();
-    List<Groceries> OrderByCountDescending();
-    List<Groceries> OrderByLocation();
-    List<Groceries> SelectByLocationFridge();
+    List<FoodProduct> OrderByNameDescending();
+    List<FoodProduct> OrderByCountDescending();
+    List<FoodProduct> OrderByLocation();
+    List<FoodProduct> SelectByLocationFridge();
 
     //List<string> GetUniqueEntitiesByName();
     //int SelectByCountSortByMin();

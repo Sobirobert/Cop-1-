@@ -1,8 +1,8 @@
 ﻿namespace WhatWhere.Entities;
 
-public class Groceries : EntityBase
+public class FoodProduct : EntityBase
 {
-    public Groceries(string? name, string? location, int count, DateTime DateChanges)
+    public FoodProduct(string? name, string? location, int count, DateTime DateChanges)
     {
         Name = name;
         Location = location;
@@ -10,7 +10,7 @@ public class Groceries : EntityBase
         DateChange = DateChanges;
     }
 
-    public Groceries()
+    public FoodProduct()
     {
     }
 

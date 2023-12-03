@@ -1,8 +1,8 @@
 ﻿namespace WhatWhere.Entities
 {
-    public class KitchenAccessories : EntityBase
+    public class KitchenAccessory : EntityBase
     {
-        public KitchenAccessories(string? name, string? location, int count, DateTime dateChanges)
+        public KitchenAccessory(string? name, string? location, int count, DateTime dateChanges)
         {
             Name = name;
             Location = location;
@@ -10,7 +10,7 @@
             DateChange = dateChanges;
         }
 
-        public KitchenAccessories()
+        public KitchenAccessory()
         {
         }
 
