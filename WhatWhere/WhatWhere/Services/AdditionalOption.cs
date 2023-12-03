@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using WhatWhere.DataProviders;
+﻿using WhatWhere.DataProviders;
 using WhatWhere.Entities;
 using WhatWhere.Repositories;
 
@@ -9,10 +7,8 @@ namespace WhatWhere.Services;
 public class AdditionalOption : IAdditionalOption
 {
     private readonly IEntitiesProvider _entitiesProviderGroceries;
-    private readonly IRepository<Groceries> _groceriesRepository;
-    public AdditionalOption(IRepository<Groceries> groceriesRepository, IEntitiesProvider entitiesProviderGroceries)
+    public AdditionalOption(IEntitiesProvider entitiesProviderGroceries)
     {
-        _groceriesRepository = groceriesRepository;
         _entitiesProviderGroceries = entitiesProviderGroceries;
     }
     public void Menu()
@@ -92,18 +88,5 @@ public class AdditionalOption : IAdditionalOption
         Console.WriteLine(comment);
         var userInput = Console.ReadLine();
         return userInput;
-    }
-
-    static int AddStringConversionToInt(string value)
-    {
-        if (int.TryParse(value, out int number))
-        {
-            Console.WriteLine("The conversion success.");
-        }
-        else
-        {
-            Console.WriteLine("The conversion wasn't successful.");
-        }
-        return number;
     }
 }

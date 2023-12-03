@@ -124,9 +124,9 @@ public class UserCommunication : IUserCommunication
             var choice = GetInputFromUserAndReturnString("Do you want to save changes?\nPress Y if YES\t\tPress N if NO").ToUpper();
             if (choice == "Y")
             {
-                _agdRepositoryToJSON.Save();
-                _groceriesRepositoryToJSON.Save();
-                _kitchenAccessoriesRepositoryToJSON.Save();
+                agdRepository.Save();
+                groceriesRepository.Save();
+                kitchenAccessoriesRepository.Save();
                 Console.WriteLine("Changes saved.");
                 return true;
             }

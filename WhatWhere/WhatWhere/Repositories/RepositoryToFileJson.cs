@@ -35,7 +35,7 @@ public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, 
     }
     public void Save()
     {
-        //File.Delete(path);
+        File.Delete(path);
         var objectsSerialized = JsonSerializer.Serialize<IEnumerable<T>>(_items);
         File.WriteAllText(path, objectsSerialized);
     }
@@ -46,28 +46,21 @@ public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, 
     }
     public IEnumerable<T> GetAll()
     {
-        if (File.Exists(path))
+        if ( _items.Count == 0)
         {
-            var objectsSerialized = File.ReadAllText(path);
-            var deserializedObjects = JsonSerializer.Deserialize<IEnumerable<T>>(objectsSerialized);
-            if (deserializedObjects is not null)
+            if (File.Exists(path))
             {
-                foreach (var items in deserializedObjects)
-                {
-                    _items.Add(items);
-                }
+               Read();
             }
         }
-        return _items;
+        return _items.ToList();
     }
     public T? GetById(int id)
     {
         var itemById = _items.SingleOrDefault(item => item.Id == id);
         if (itemById == null)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Object {typeof(T).Name} with id {id} not found.");
-            Console.ResetColor();
         }
         return itemById;
     }
