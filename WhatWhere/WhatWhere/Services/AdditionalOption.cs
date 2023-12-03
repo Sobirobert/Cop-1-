@@ -25,10 +25,6 @@ public class AdditionalOption : IAdditionalOption
                 "2 - Get Groceries order by count descending\n" +
                 "3 - Order by location \n" +
                 "4 - Select fridge location fridge\n" +
-                "5 - Order players by <Contract to>\n" +
-                "6 - Order players by <LastName and FirstName>\n" +
-                "7 - Players where <Weekly Wage> is greater than...\n" +
-                "8 - Players older than <Age>\n" +
                 "X - Back to MAIN MENU\n");
 
             var userInput = GetInputFromUserAndReturnString("What you want to do? \n").ToUpper();
