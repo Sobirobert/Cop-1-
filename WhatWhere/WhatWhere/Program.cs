@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WhatWhere;
+using WhatWhere.DataProviders;
 using WhatWhere.Entities;
 using WhatWhere.Repositories;
 using WhatWhere.Services;
@@ -13,8 +14,10 @@ services.AddSingleton<IRepository<AGD>, RepositoryToFileJson<AGD>>();
 services.AddSingleton<IRepository<Groceries>, RepositoryToFileJson<Groceries>>();
 services.AddSingleton<IRepository<KitchenAccessories>, RepositoryToFileJson<KitchenAccessories>>();
 services.AddSingleton<IUserCommunication, UserCommunication>();
-services.AddSingleton<IMethodsExtensions, MethodsExtensions>();
 services.AddSingleton<IEventHandlerServices, EventHandlerServices>();
+services.AddSingleton<IAdditionalOption, AdditionalOption>();
+services.AddSingleton<IEntitiesProvider, EntitiesProvider>();
+
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetRequiredService<IApp>()!;
