@@ -17,12 +17,30 @@ public class DataProvider : IDataProvider
         var cars = _csvReader.ProcessCars(@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Resources\Files\fuel.csv");
         var manufacturers = _csvReader.ProcessManufacturesrs(@"D:\Programowanie2\Cop 1\Cop-1-\WhatWhere\WhatWhere\Resources\Files\manufacturers.csv");
 
-       
+        GroupManufacturersByDisplacement(cars);
+
         GroupManufacturersByName(cars);
                
         JoinManufacturersAndCars(cars, manufacturers);
                 
         JoinManufacturersAndCarsGroupByManufacturer(cars, manufacturers);
+    }
+
+    private void GroupManufacturersByDisplacement(List<Car> cars)
+    {
+        var groups = cars.GroupBy(x => x.Manufacturer)
+          .Select(g => new
+          {
+              Name = g.Key,
+              Displacement = g.Max(x => x.Displacement),
+          })
+          .OrderByDescending(x => x.Displacement);
+
+        foreach (var group in groups)
+        {
+            Console.WriteLine($"{group.Name}\n" +
+                $"\tcombined max: {group.Displacement}\n");
+        }
     }
 
     private void JoinManufacturersAndCarsGroupByManufacturer(List<Car> cars, List<Manufacture> manufacturers)

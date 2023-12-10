@@ -23,9 +23,9 @@ public class App : IApp
 
     public void Run()
     {
-       // _eventHandlerService.SubscribeToEvents();
-       // _userCommunication.Menu();
-       // _xmlCreator.CreateXml();
+        // _eventHandlerService.SubscribeToEvents();
+        // _userCommunication.Menu();
+        // _xmlCreator.CreateXml();
         //_xmlCreator.CreateXmlJoined();
         //_xmlCreator.QueryXml();
         _datProvider.GenerateDataFromCsvFile();
