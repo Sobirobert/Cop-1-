@@ -1,11 +1,12 @@
-﻿using WhatWhere.Entities;
-using WhatWhere.Repositories;
+﻿using WhatWhere.Data.Entities;
+using WhatWhere.Data.Repositories;
 
-namespace WhatWhere.DataProviders;
+namespace WhatWhere.Components.DataProviders;
 
 public class FoodProductProvider : IFoodProductProvider
 {
     private readonly IRepository<FoodProduct> _foodProductProvider;
+
     public FoodProductProvider(IRepository<FoodProduct> foodProductProvider)
     {
         _foodProductProvider = foodProductProvider;
@@ -28,12 +29,12 @@ public class FoodProductProvider : IFoodProductProvider
         var entitys = _foodProductProvider.GetAll();
         return entitys.OrderByDescending(x => x.Location).ToList();
     }
+
     public List<FoodProduct> SelectByLocationFridge()
     {
         var entitys = _foodProductProvider.GetAll();
         return entitys.Where(x => x.Location == "Fridge").ToList();
     }
-
 
     //{
     //    var entitys = _foodProductProvider.GetAll();
@@ -90,7 +91,6 @@ public class FoodProductProvider : IFoodProductProvider
     //    }
     //    return sb.ToString();
     //}
-
 
     //public List<Groceries> OrderByNameDescending()
     //{
@@ -240,7 +240,4 @@ public class FoodProductProvider : IFoodProductProvider
     //    var entitys = _foodProductProvider.GetAll();
     //    return entitys.Chunk(size).ToList();
     //}
-
 }
-
-

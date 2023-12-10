@@ -1,6 +1,6 @@
-﻿using WhatWhere.Entities;
+﻿using WhatWhere.Data.Entities;
 
-namespace WhatWhere.DataProviders.Extensions;
+namespace WhatWhere.Components.DataProviders.Extensions;
 
 public static class EntitiesHelper
 {

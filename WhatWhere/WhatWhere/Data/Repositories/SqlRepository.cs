@@ -1,9 +1,9 @@
-﻿namespace WhatWhere.Repositories;
+﻿namespace WhatWhere.Data.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WhatWhere.Data;
-using WhatWhere.Entities;
+using WhatWhere.Data.Entities;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {

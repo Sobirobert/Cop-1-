@@ -1,4 +1,4 @@
-﻿namespace WhatWhere.Entities
+﻿namespace WhatWhere.Data.Entities
 {
     public abstract class EntityBase : IEntity
     {

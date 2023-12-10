@@ -1,5 +1,5 @@
-﻿using WhatWhere.Entities;
-using WhatWhere.Repositories;
+﻿using WhatWhere.Data.Entities;
+using WhatWhere.Data.Repositories;
 
 namespace WhatWhere.Services;
 

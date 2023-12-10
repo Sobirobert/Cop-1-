@@ -1,8 +1,7 @@
-﻿using System.Security.Policy;
-using System.Text.Json;
-using WhatWhere.Entities;
+﻿using System.Text.Json;
+using WhatWhere.Data.Entities;
 
-namespace WhatWhere.Repositories;
+namespace WhatWhere.Data.Repositories;
 
 public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, new()
 {
@@ -11,7 +10,9 @@ public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, 
     private readonly string path = $"{typeof(T).Name}_save.json";
 
     public event EventHandler<T> ItemAdded;
+
     public event EventHandler<T> ItemRemoved;
+
     public int GetListCount()
     {
         return _items.Count;
@@ -33,28 +34,32 @@ public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, 
         _items.Add(item);
         ItemAdded?.Invoke(this, item);
     }
+
     public void Save()
     {
         File.Delete(path);
         var objectsSerialized = JsonSerializer.Serialize<IEnumerable<T>>(_items);
         File.WriteAllText(path, objectsSerialized);
     }
+
     public void Remove(T item)
     {
         _items.Remove(item);
         ItemRemoved?.Invoke(this, item);
     }
+
     public IEnumerable<T> GetAll()
     {
-        if ( _items.Count == 0)
+        if (_items.Count == 0)
         {
             if (File.Exists(path))
             {
-               Read();
+                Read();
             }
         }
         return _items.ToList();
     }
+
     public T? GetById(int id)
     {
         var itemById = _items.SingleOrDefault(item => item.Id == id);
@@ -82,5 +87,3 @@ public class RepositoryToFileJson<T> : IRepository<T> where T : class, IEntity, 
         return _items;
     }
 }
-
-

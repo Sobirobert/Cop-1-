@@ -1,6 +1,6 @@
-﻿using WhatWhere.Entities;
+﻿using WhatWhere.Data.Entities;
 
-namespace WhatWhere.Repositories
+namespace WhatWhere.Data.Repositories
 {
     public interface IRepository<T> : IReadRepository<T>, IWriteRepository<T>
        where T : class, IEntity

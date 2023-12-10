@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
-using System.Numerics;
-using WhatWhere.Entities;
-using WhatWhere.Repositories;
+﻿using WhatWhere.Data.Entities;
+using WhatWhere.Data.Repositories;
 
 namespace WhatWhere.Services;
 
@@ -26,7 +24,7 @@ public class UserCommunication : IUserCommunication
         while (true)
         {
             Console.WriteLine("Hello User.\n" +
-                "Choose option\n"+
+                "Choose option\n" +
                 "Press 1 to Add new object\n" +
                 "Press 2 to show all products from file\n" +
                 "Press 3 to find product by ID\n" +
@@ -43,13 +41,11 @@ public class UserCommunication : IUserCommunication
                     {
                         AddNewAGD(_agdRepositoryToJSON);
                         Console.WriteLine($"Success");
-
                     }
                     else if (inPut == 2)
                     {
                         AddNewGroceries(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
-
                     }
                     else if (inPut == 3)
                     {
@@ -57,24 +53,24 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Success");
                     }
                     break;
+
                 case "2":
                     WriteAllToConsole(_agdRepositoryToJSON);
                     WriteAllToConsole(_foodProductRepositoryToJSON);
                     WriteAllToConsole(_kitchenAccessoryRepositoryToJSON);
                     break;
+
                 case "3":
                     var userInPut2 = GetInputFromUserAndReturnInt("\nWhich Entities do you want to find by Id ? \n Press 1 - AGD, 2 - Groceries, 3 - KitchenAccessories.\n");
                     if (userInPut2 == 1)
                     {
                         FindProductById(_agdRepositoryToJSON);
                         Console.WriteLine($"Success");
-
                     }
                     else if (userInPut2 == 2)
                     {
                         FindProductById(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
-
                     }
                     else if (userInPut2 == 3)
                     {
@@ -82,19 +78,18 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Success");
                     }
                     break;
+
                 case "4":
                     var userInPut3 = GetInputFromUserAndReturnInt("\nWhich Entities do you want remove by Id ? \n Press 1 - AGD, 2 - Groceries, 3 - KitchenAccessories.\n");
                     if (userInPut3 == 1)
                     {
                         RemoveEntity(_agdRepositoryToJSON);
                         Console.WriteLine($"Success");
-
                     }
                     else if (userInPut3 == 2)
                     {
                         RemoveEntity(_foodProductRepositoryToJSON);
                         Console.WriteLine("Success");
-
                     }
                     else if (userInPut3 == 3)
                     {
@@ -102,20 +97,22 @@ public class UserCommunication : IUserCommunication
                         Console.WriteLine("Success");
                     }
                     break;
+
                 case "5":
                     _additionalOption.Menu();
                     break;
+
                 case "x":
                 case "X":
                     CloseAppSaveChanges(_agdRepositoryToJSON, _foodProductRepositoryToJSON, _kitchenAccessoryRepositoryToJSON);
                     return;
+
                 default:
                     Console.WriteLine("Invalid operation");
                     break;
             }
         }
     }
-
 
     private bool CloseAppSaveChanges(IRepository<AGD> agdRepository, IRepository<FoodProduct> foodProductRepository, IRepository<KitchenAccessory> kitchenAccessoryRepository)
     {
@@ -140,7 +137,6 @@ public class UserCommunication : IUserCommunication
             }
         }
     }
-
 
     private void RemoveEntity<T>(IRepository<T> repository) where T : class, IEntity
     {
@@ -168,6 +164,7 @@ public class UserCommunication : IUserCommunication
             }
         }
     }
+
     private T? FindProductById<T>(IRepository<T> entityRepository) where T : class, IEntity
     {
         while (true)
@@ -227,7 +224,6 @@ public class UserCommunication : IUserCommunication
         };
         kitchenAccessoryRepositoryToJSON.Add(newObjcet);
         Console.WriteLine($"KitchenAccessories Added: {name}");
-
     }
 
     private void AddNewGroceries(IRepository<FoodProduct> foodProductRepositoryToJSON)
@@ -252,21 +248,23 @@ public class UserCommunication : IUserCommunication
         foodProductRepositoryToJSON.Add(newObjcet);
         Console.WriteLine($"Groceries Added: {name}");
     }
-    static int GetInputFromUserAndReturnInt(string comment)
+
+    private static int GetInputFromUserAndReturnInt(string comment)
     {
         Console.WriteLine(comment);
         var userInput = Console.ReadLine();
         var userInPutInt = AddStringConversionToInt(userInput);
         return userInPutInt;
     }
-    static string GetInputFromUserAndReturnString(string comment)
+
+    private static string GetInputFromUserAndReturnString(string comment)
     {
         Console.WriteLine(comment);
         var userInput = Console.ReadLine();
         return userInput;
     }
 
-    static int AddStringConversionToInt(string value)
+    private static int AddStringConversionToInt(string value)
     {
         if (int.TryParse(value, out int number))
         {
@@ -278,6 +276,7 @@ public class UserCommunication : IUserCommunication
         }
         return number;
     }
+
     private void WriteAllToConsole<T>(IRepository<T> repository) where T : class, IEntity
     {
         Console.WriteLine("\nAll products:\n");

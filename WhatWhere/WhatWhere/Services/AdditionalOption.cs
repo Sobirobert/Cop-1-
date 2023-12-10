@@ -1,16 +1,16 @@
-﻿using WhatWhere.DataProviders;
-using WhatWhere.Entities;
-using WhatWhere.Repositories;
+﻿using WhatWhere.Components.DataProviders;
 
 namespace WhatWhere.Services;
 
 public class AdditionalOption : IAdditionalOption
 {
     private readonly IFoodProductProvider _foodProductProvider;
+
     public AdditionalOption(IFoodProductProvider entitiesProviderGroceries)
     {
         _foodProductProvider = entitiesProviderGroceries;
     }
+
     public void Menu()
     {
         while (true)
@@ -30,17 +30,22 @@ public class AdditionalOption : IAdditionalOption
                 case "1":
                     OrderByNameDescending();
                     break;
+
                 case "2":
                     SelectLowCountProducts();
                     break;
+
                 case "3":
                     OrderByLocation();
                     break;
+
                 case "4":
                     SelectByLocationFridge();
                     break;
+
                 case "X":
                     return;
+
                 default:
                     Console.WriteLine("Invalid operation.\n");
                     continue;
@@ -83,7 +88,8 @@ public class AdditionalOption : IAdditionalOption
             Console.WriteLine($" Your min count product is: {name}");
         }
     }
-    static string GetInputFromUserAndReturnString(string comment)
+
+    private static string GetInputFromUserAndReturnString(string comment)
     {
         Console.WriteLine(comment);
         var userInput = Console.ReadLine();

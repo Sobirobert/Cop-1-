@@ -1,4 +1,4 @@
-﻿using WhatWhere.Entities;
+﻿using WhatWhere.Data.Entities;
 
 namespace WhatWhere.Services
 {

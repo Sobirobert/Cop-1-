@@ -1,7 +1,7 @@
 ﻿namespace WhatWhere.Data;
 
 using Microsoft.EntityFrameworkCore;
-using WhatWhere.Entities;
+using WhatWhere.Data.Entities;
 
 public class WhatWhereDbContext : DbContext
 {

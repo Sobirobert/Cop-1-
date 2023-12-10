@@ -1,11 +1,13 @@
-﻿using WhatWhere.Entities;
+﻿using WhatWhere.Data.Entities;
 
-namespace WhatWhere.Repositories
+namespace WhatWhere.Data.Repositories
 {
     public interface IWriteRepository<in T> where T : class, IEntity
     {
         void Add(T item);
+
         void Remove(T item);
+
         void Save();
     }
 }
